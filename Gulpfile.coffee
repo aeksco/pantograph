@@ -96,6 +96,12 @@ gulp.task 'watch', ->
 
 # TODO - put these tasks into a separate file
 
+# Flushes build directory
+# TODO - finish this.
+# gulp.task 'flush_build', ->
+#   console.log 'FLUSH BUILD'
+#   return true
+
 # NodeWebKit Package.json
 gulp.task 'nodewebkit_package', ->
   str = require paths.nwk_package.src

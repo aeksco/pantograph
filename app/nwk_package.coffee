@@ -1,11 +1,11 @@
 # NodeWebKit package.json
 config =
-  name:       'OpenBCI_App'
+  name:       'PantographCv'
   version:    '0.0.1'
   main:       'index.html'
   'node-main':  './js/server.js'
   window:
-    title:      'OpenBCI App'
+    title:      'PantographCv'
     icon:       './img/icon.png'
     toolbar:    true
     frame:      true

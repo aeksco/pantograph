@@ -26,7 +26,8 @@ class ServerWorker
   invokePython: (script, args=[]) ->
     script = './python/' + script
     processArgs = [script].concat(args)
-    return @spawnProcess('python', processArgs)
+    # return @spawnProcess('python', processArgs)
+    return @spawnProcess('/usr/local/bin/python', processArgs)
 
 # # # # #
 
