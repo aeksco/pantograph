@@ -1,0 +1,20 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependency directories
+node_modules
+
+# Builds
+build
+
+# Mac
+.DS_Store
+
+# NodeWebKit Cache
+cache
+
+# IDE stuff
+__pycache__*
+
