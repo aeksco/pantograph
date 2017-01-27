@@ -13,7 +13,6 @@ print('Starting..')
 
 # Input Image
 inputImg = cv2.imread('./python/input.jpg')
-# inputImg = cv2.imread('input.jpg')
 
 print('Read input..')
 
