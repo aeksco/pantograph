@@ -45,16 +45,15 @@ print('Greyscale..')
 maxVal = 255
 ret, thresh = cv2.threshold(greyImage,threshVal,maxVal,0)
 im2, contours, hierarchy = cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-cv2.imwrite('_out_03_contours.jpg', im2)
-cv2.imwrite('_out_04_contours.png', im2)
+# cv2.imwrite('_out_03_contours.jpg', im2)
+# cv2.imwrite('_out_04_contours.png', im2)
 cv2.imwrite('_out_05_contours.pbm', im2)
 
 print('Contours..')
 
 # Converts to SVG with Potrace
 os.system('/usr/local/bin/potrace _out_05_contours.pbm -o _out_06_output.svg -s')
-os.system('/usr/local/bin/potrace _out_05_contours.pbm -b dxf -o _out_07_output.dxf')
-os.system('/usr/local/bin/potrace _out_05_contours.pbm -b pdf -o _out_07_output.pdf')
+# os.system('/usr/local/bin/potrace _out_05_contours.pbm -b dxf -o _out_07_output.dxf')
 
 print('Potrace..')
 
