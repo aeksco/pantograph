@@ -19,6 +19,8 @@
 
 - [Marionette.js](http://marionettejs.com/)
 
+- [Three.js STL Exporter](https://github.com/atnartur/three-STLexporter)
+
 
 #### Building the App
 - ```npm install -g gulp```

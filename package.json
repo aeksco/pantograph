@@ -25,6 +25,8 @@
     "gulp-browserify": "~0.5.1",
     "gulp_tasks": "https://github.com/aeksco/gulp_tasks",
     "hammerjs": "^2.0.8",
+    "hn_flash": "git+https://github.com/HensonJS/hn_flash.git",
+    "hn_overlay": "git+https://github.com/HensonJS/hn_overlay.git",
     "jquery": "~2.1",
     "marionette-service": "~0.0",
     "moment": "~2.10",
@@ -32,6 +34,8 @@
     "qs": "~6.0",
     "swiper": "^3.4.0",
     "tether": "~1.1",
+    "three": "^0.73.0",
+    "three-stlexporter": "^1.0.0",
     "tone": "^0.8.0",
     "underscore": "~1.8"
   },
