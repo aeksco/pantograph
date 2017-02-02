@@ -1,0 +1,15 @@
+include ../../../../../../partials/form_helpers
+
+.col-xs-6
+  p.lead= title
+
+.col-xs-6.text-xs-right
+  .btn.btn-sm.btn-secondary.toggle-form
+    i.fa.fa-chevron-down
+
+.form(style='display:none;')
+  .col-xs-6
+    +formInput({ label: 'Color (hex)', placeholder: 'Color', name: 'color', type: 'text' })
+
+  .col-xs-6
+    +formInput({ label: 'Enabled', name: 'enabled', type: 'checkbox' })

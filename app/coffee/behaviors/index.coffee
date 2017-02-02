@@ -1,7 +1,5 @@
 # Marionette Behaviors manifest
 module.exports =
   Confirmations:  require './confirmations'
-  Haptic:         require './haptic'
-  KeyClick:       require './keyClick'
-  SubmitButton:   require './submitButton'
-  DownloadFile:   require './downloadFile'
+  SubmitButton:   require './submitButton' # TODO - abstracted to Henson.js
+  DownloadFile:   require './downloadFile' # TODO - abstracted to Henson.js

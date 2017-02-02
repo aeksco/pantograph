@@ -1,11 +1,12 @@
 LayoutView  = require './views/layout'
+FormModel = require '../model'
 
 # # # # #
 
 class HomeRoute extends require '../../base/route'
 
   render: ->
-    @container.show new LayoutView()
+    @container.show new LayoutView({ model: new FormModel() })
 
 # # # # #
 

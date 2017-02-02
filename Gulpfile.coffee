@@ -51,6 +51,7 @@ paths =
       nodeModules + 'jquery/dist/jquery.js'
       nodeModules + 'underscore/underscore.js'
       nodeModules + 'backbone/backbone.js'
+      nodeModules + 'backbone-relational/backbone-relational.js'
       nodeModules + 'backbone.babysitter/lib/backbone.babysitter.js'
       nodeModules + 'backbone.wreqr/lib/backbone.wreqr.js'
       nodeModules + 'backbone.marionette/lib/core/backbone.marionette.js'
@@ -66,9 +67,31 @@ paths =
       nodeModules + 'backbone.dualStorage/backbone.dualStorage.js'
       nodeModules + 'bluebird/js/browser/bluebird.min.js'
       nodeModules + 'hammerjs/hammer.js'
-      nodeModules + 'tone/build/Tone.js'
       nodeModules + 'moment/moment.js'
       nodeModules + 'filer.js/dist/filer.min.js'
+      # nodeModules + 'd3/build/d3.js'
+
+      # Three.js
+      # nodeModules + 'three/build/three.js' # 0.84
+      nodeModules + 'three/three.js' # 0.73
+      nodeModules + 'three/examples/js/controls/OrbitControls.js'
+
+      # D3-Three3.js - SVG -> Three.js geometry
+      # https://github.com/asutherland/d3-threeD
+      './vendor/d3-threeD.js'
+
+      # Flatten.js - "Flatten" an SVG document by applying all transforms to the paths
+      # https://gist.github.com/timo22345/9413158
+      './vendor/flatten.js'
+
+      # https://github.com/chandlerprall/ThreeCSG
+      # Constructive Solid Geometry
+      # NOTE - only used when exporting geometry with base plate
+      # NOTE - should consider using this version: https://github.com/sshirokov/ThreeBSP
+      '.vendor/ThreeCSG.js'
+
+      # Three.js STL Exporter
+      nodeModules + 'three-stlexporter/STLExporter.js'
 
     ]
 

@@ -1,0 +1,8 @@
+include ../../../../../../partials/form_helpers
+
+.col-xs-12
+  +formInput({ label: 'Height (mm)', placeholder: 'Height', name: 'height', type: 'number' })
+
+  //- +formRange({ label: 'Height (mm)', name: 'height', type: 'range', max: 100, min: 1  })
+
+  +formRange({ label: 'Size (mm)', name: 'typeSize', type: 'range', max: 100, min: 60  })
