@@ -15,14 +15,17 @@ class PlatformSetting extends RenderSetting
 
   defaults:
     enabled:  false
-    shape:    'rect' # or 'circ'
-    height:   5
+    # shape:    'rect'
+    shape:    'circ'
+    height:   2
     buffer:   5
 
 PlatformSetting.setup()
 
 # # # # #
 
+# TODO - each one of these represents a SINGLE object
+# Ideally the tool would allow multiple objects to be placed?
 class FormModel extends Backbone.RelationalModel
 
   # TODO - validations
@@ -31,10 +34,12 @@ class FormModel extends Backbone.RelationalModel
 
     # Core Options
     typeSize:         60
-    typeDepth:        10
-    height:           10
+    typeDepth:        1
+    height:           2
     wantInvertedType: false
     svgWindingIsCW:   false
+
+    # TODO - bevel options
     bevelEnabled:     false
 
     # Platform Options
@@ -46,7 +51,7 @@ class FormModel extends Backbone.RelationalModel
 
     edges:
       color:    0xffffff
-      enabled:  false
+      enabled:  true
 
     normals:
       color:    0x000000

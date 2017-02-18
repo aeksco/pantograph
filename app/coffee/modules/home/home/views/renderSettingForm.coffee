@@ -3,17 +3,24 @@ class RenderSettingsForm extends Marionette.LayoutView
   template: require './templates/render_setting_form'
   className: 'row'
 
+  behaviors:
+    BootstrapSwitch: {}
+    BootstrapColorPicker: {}
+
   # TODO - this should be a behavior
   ui:
     checkbox: 'input[type=checkbox]'
+    toggleForm: '[data-click=toggle-form]'  # TODO - abstract into behavior
+    toggleTarget: '[data-toggle=form]'      # TODO - abstract into behavior
 
   events:
     'change @ui.checkbox':'updateAttrs'
     'input input':  'updateAttrs'
-    'click .toggle-form': 'toggleForm' # TODO - behavior
+    'click @ui.toggleForm': 'toggleForm' # TODO - behavior
+    'switchChange.bootstrapSwitch @ui.checkbox':  'updateAttrs'
 
   toggleForm: ->
-    @$('.form').slideToggle('fast')
+    @ui.toggleTarget.slideToggle('fast')
 
   modelEvents:
     'change': 'onModelChange'

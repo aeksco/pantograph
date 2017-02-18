@@ -41,15 +41,21 @@ paths =
       src:  './app/img/*'
       dest: './build/img'
 
+    # python:
+    #   src:  './app/python/*'
+    #   dest: './build/python'
+
     python:
-      src:  './app/python/*'
-      dest: './build/python'
+      src:  nodeModules + 'bootstrap-colorpicker/dist/img/bootstrap-colorpicker/*'
+      dest: './build/img/bootstrap-colorpicker'
 
   concat:
     dest: 'vendor.js'
     src: [
       nodeModules + 'jquery/dist/jquery.js'
       nodeModules + 'underscore/underscore.js'
+
+      # Backbone
       nodeModules + 'backbone/backbone.js'
       nodeModules + 'backbone-relational/backbone-relational.js'
       nodeModules + 'backbone.babysitter/lib/backbone.babysitter.js'
@@ -58,13 +64,19 @@ paths =
       nodeModules + 'backbone-metal/dist/backbone-metal.js'
       nodeModules + 'backbone-routing/dist/backbone-routing.js'
       nodeModules + 'backbone.radio/build/backbone.radio.js'
-      nodeModules + 'marionette-service/dist/marionette-service.js'
       nodeModules + 'backbone.syphon/lib/backbone.syphon.js'
+      nodeModules + 'backbone.dualStorage/backbone.dualStorage.js'
+
+      # Marionette
+      nodeModules + 'marionette-service/dist/marionette-service.js'
+
+      # Bootstrap
       nodeModules + 'tether/dist/js/tether.min.js'
       nodeModules + 'bootstrap/dist/js/bootstrap.min.js'
       nodeModules + 'bootstrap-switch/dist/js/bootstrap-switch.min.js'
-      nodeModules + 'crypto-js/crypto-js.js'
-      nodeModules + 'backbone.dualStorage/backbone.dualStorage.js'
+      nodeModules + 'bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js'
+
+      # Utility
       nodeModules + 'bluebird/js/browser/bluebird.min.js'
       nodeModules + 'hammerjs/hammer.js'
       nodeModules + 'moment/moment.js'

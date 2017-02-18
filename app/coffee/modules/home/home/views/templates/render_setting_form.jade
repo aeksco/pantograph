@@ -4,12 +4,21 @@ include ../../../../../../partials/form_helpers
   p.lead= title
 
 .col-xs-6.text-xs-right
-  .btn.btn-sm.btn-secondary.toggle-form
+  .btn.btn-sm.btn-secondary(data-click='toggle-form')
     i.fa.fa-chevron-down
 
-.form(style='display:none;')
-  .col-xs-6
-    +formInput({ label: 'Color (hex)', placeholder: 'Color', name: 'color', type: 'text' })
+.col-xs-12
 
-  .col-xs-6
-    +formInput({ label: 'Enabled', name: 'enabled', type: 'checkbox' })
+  .row(data-toggle='form' style='display:none;')
+    .col-xs-6
+      //- +formInput({ label: 'Enabled', name: 'enabled', type: 'checkbox' })
+      +formInput({ name: 'enabled', type: 'checkbox' })
+
+    .col-xs-6
+      //- +formInput({ label: 'Color (hex)', placeholder: 'Color', name: 'color', type: 'text' })
+
+      //- TODO - move to form helpers?
+      .input-group.colorpicker-element
+        input.form-control(type='hidden', name='color', placeholder='Color')
+        span.input-group-addon( style='padding: 0.75rem; border: 1px solid #ccc;' )
+          i

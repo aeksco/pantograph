@@ -92,32 +92,44 @@ class ObjectBuilder
     maxBbExtent = if svgWidth > svgHeight then svgWidth else svgHeight
 
     # Now make the rectangular base plate
-    basePlate = new THREE.BoxGeometry(maxBbExtent + opts.platform.buffer, maxBbExtent + opts.platform.buffer, opts.platform.height)
-    basePlateMesh = new THREE.Mesh(basePlate, opts.material)
+    platformGeometry = new THREE.BoxGeometry(maxBbExtent + opts.platform.buffer, maxBbExtent + opts.platform.buffer, opts.platform.height)
+    platformMesh = new THREE.Mesh(platformGeometry, opts.material)
+    return platformMesh
 
   # # # # #
 
   getCircularPlatform: (mesh, opts) ->
-    # # Find SVG bounding radius
-    # svgBoundRadius = mesh.geometry.boundingSphere.radius
-    # #var radius = Math.sqrt(
-    # #    Math.pow((maxBbExtent/2),  2) +
-    # #    Math.pow((maxBbExtent/2), 2)) + opts.baseBuffer;
-    # basePlate = new (THREE.CylinderGeometry)(svgBoundRadius + opts.baseBuffer, svgBoundRadius + opts.baseBuffer, opts.platform.height, 64)
-    # # Number of faces around the cylinder
-    # basePlateMesh = new (THREE.Mesh)(basePlate, opts.material)
-    # rotateTransform = (new (THREE.Matrix4)).makeRotationX(Math.PI / 2)
-    # basePlateMesh.geometry.applyMatrix rotateTransform
+    # Find SVG bounding radius
+    svgBoundRadius = mesh.geometry.boundingSphere.radius
+
+    # TODO - abstract into function
+    svgBoundBox = mesh.geometry.boundingBox
+    svgWidth = svgBoundBox.max.x - (svgBoundBox.min.x)
+    svgHeight = svgBoundBox.max.y - (svgBoundBox.min.y)
+    maxBbExtent = if svgWidth > svgHeight then svgWidth else svgHeight
+
+    # Gets radius
+    sqrt = Math.sqrt( Math.pow((maxBbExtent/2),  2) + Math.pow((maxBbExtent/2), 2))
+    radius = sqrt + opts.platform.buffer
+
+    # Gets
+    platformGeometry = new THREE.CylinderGeometry(svgBoundRadius + opts.platform.buffer, svgBoundRadius + opts.platform.buffer, opts.platform.height, 64)
+
+    # Number of faces around the cylinder
+    platformMesh = new THREE.Mesh(platformGeometry, opts.material)
+    rotateTransform = new THREE.Matrix4().makeRotationX(Math.PI / 2)
+    platformMesh.geometry.applyMatrix(rotateTransform)
+    return platformMesh
 
   # # # # #
 
   getPlatformObject: (mesh, opts) ->
-    basePlateMesh = undefined
-
     # Rectangular platform
     # TODO - cicular platform
     if opts.platform.shape == 'rect'
       platformMesh = @getRectangularPlatform(mesh, opts)
+    else
+      platformMesh = @getCircularPlatform(mesh, opts)
 
     # By default, base is straddling Z-axis, put it flat on the print surface.
     translateTransform = new THREE.Matrix4().makeTranslation(0, 0, opts.platform.height / 2)
@@ -142,7 +154,6 @@ class ObjectBuilder
 
     # Gets platform object
     platform_mesh = @getPlatformObject(mesh, opts)
-    # basePlateMesh = getBasePlateObject(options, mesh)
 
     # For constructive solid geometry (CSG) actions
     baseCSG = new ThreeBSP(platform_mesh)
