@@ -14,8 +14,20 @@ class UploadView extends Mn.LayoutView
     # Cache e.target
     file = e.target.files[0]
 
-    # Ensure file exists, and file.type is SVG
-    return if file && file.type != 'image/svg+xml'
+    # Return without a file
+    return unless file
+
+    # Pipes non-svg image through Potrace
+    if file.type != 'image/svg+xml'
+      Potrace.loadImageFromFile(file)
+      Potrace.process =>
+        svg = Potrace.getSVG(1)
+        @onXmlReaderUpload(svg)
+
+      # Short circuits onInputChange
+      return
+
+    # Opens SVG Images
 
     # Render SVG in Canvas
     renderReader = new FileReader()
@@ -24,7 +36,7 @@ class UploadView extends Mn.LayoutView
 
     # Parse XML inside SVG file
     xmlReader = new FileReader()
-    xmlReader.onload = => @onXmlReaderUpload(xmlReader)
+    xmlReader.onload = => @onXmlReaderUpload(xmlReader.result)
     xmlReader.readAsText(file)
 
   # Displays the uploaded
@@ -32,10 +44,10 @@ class UploadView extends Mn.LayoutView
     @ui.img.attr('src', fileData)
     @ui.img.fadeIn()
 
-  onXmlReaderUpload: (xmlReader) ->
+  onXmlReaderUpload: (svg) ->
 
     # Parses XML out of SVG text
-    svgDocument = $.parseXML(xmlReader.result)
+    svgDocument = $.parseXML(svg)
 
     # 'Flatten' SVG
     flatten(svgDocument.children[0])

@@ -14,7 +14,7 @@ RenderSetting.setup()
 class PlatformSetting extends RenderSetting
 
   defaults:
-    enabled:  true
+    enabled:  false
     shape:    'rect' # or 'circ'
     height:   5
     buffer:   5

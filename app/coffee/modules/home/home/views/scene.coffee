@@ -74,7 +74,6 @@ class RenderView extends Marionette.LayoutView
     @scene.add(@group)
 
     # Triggers frame animation
-    # @animate()
     @startAnimate()
 
     # WindowResize event handler
@@ -89,7 +88,6 @@ class RenderView extends Marionette.LayoutView
 
   # Manages frame-by-frame animation in THREE.js scene
   animate: =>
-    # requestAnimationFrame(@animate)
     @controls.update()
     @renderer.render(@scene, @camera)
     return
