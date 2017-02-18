@@ -69,6 +69,7 @@ paths =
       nodeModules + 'hammerjs/hammer.js'
       nodeModules + 'moment/moment.js'
       nodeModules + 'filer.js/dist/filer.min.js'
+      nodeModules + 'potrace/potrace.js'
       # nodeModules + 'd3/build/d3.js'
 
       # Three.js
@@ -88,7 +89,7 @@ paths =
       # Constructive Solid Geometry
       # NOTE - only used when exporting geometry with base plate
       # NOTE - should consider using this version: https://github.com/sshirokov/ThreeBSP
-      '.vendor/ThreeCSG.js'
+      './vendor/ThreeCSG.js'
 
       # Three.js STL Exporter
       nodeModules + 'three-stlexporter/STLExporter.js'

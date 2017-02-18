@@ -26,8 +26,8 @@ class ObjectBuilder
       shapes = shapes.concat(newShapes)
 
     # Negative typeDepths are ok, but can't be deeper than the base
-    # if options.wantBasePlate and options.typeDepth < 0 and Math.abs(options.typeDepth) > options.baseDepth
-    #   options.typeDepth = -1 * options.baseDepth
+    # if options.wantBasePlate and options.typeDepth < 0 and Math.abs(options.typeDepth) > options.platform.height
+    #   options.typeDepth = -1 * options.platform.height
 
     # Extrude all the shapes WITHOUT BEVEL
     # extruded = new THREE.ExtrudeGeometry(shapes, { amount: options.typeDepth, bevelEnabled: false })
@@ -41,13 +41,13 @@ class ObjectBuilder
     maxBbExtent = if svgWidth > svgHeight then svgWidth else svgHeight
 
     # Extrude with bevel instead if requested.
-    # if options.bevelEnabled
-    #   extruded = new (THREE.ExtrudeGeometry)(shapes,
-    #     amount: if options.bevelEnabled then 0 else options.typeDepth
-    #     bevelEnabled: options.bevelEnabled
-    #     bevelThickness: options.typeDepth
-    #     bevelSize: options.typeDepth * maxBbExtent / options.typeSize
-    #     bevelSegments: 1)
+    if options.bevelEnabled
+      extruded = new THREE.ExtrudeGeometry shapes,
+        amount: if options.bevelEnabled then 0 else options.typeDepth
+        bevelEnabled: options.bevelEnabled
+        bevelThickness: options.typeDepth
+        bevelSize: options.typeDepth * maxBbExtent / options.typeSize
+        bevelSegments: 1
 
     # Use negative scaling to invert the image
     # Why do we have to flip the image to keep original SVG orientation?
@@ -82,6 +82,86 @@ class ObjectBuilder
     return mesh
 
   # # # # # # # # # #
+
+  getRectangularPlatform: (mesh, opts) ->
+
+    # Determine the finished size of the extruded SVG with potential bevel
+    svgBoundBox = mesh.geometry.boundingBox
+    svgWidth = svgBoundBox.max.x - (svgBoundBox.min.x)
+    svgHeight = svgBoundBox.max.y - (svgBoundBox.min.y)
+    maxBbExtent = if svgWidth > svgHeight then svgWidth else svgHeight
+
+    # Now make the rectangular base plate
+    basePlate = new THREE.BoxGeometry(maxBbExtent + opts.platform.buffer, maxBbExtent + opts.platform.buffer, opts.platform.height)
+    basePlateMesh = new THREE.Mesh(basePlate, opts.material)
+
+  # # # # #
+
+  getCircularPlatform: (mesh, opts) ->
+    # # Find SVG bounding radius
+    # svgBoundRadius = mesh.geometry.boundingSphere.radius
+    # #var radius = Math.sqrt(
+    # #    Math.pow((maxBbExtent/2),  2) +
+    # #    Math.pow((maxBbExtent/2), 2)) + opts.baseBuffer;
+    # basePlate = new (THREE.CylinderGeometry)(svgBoundRadius + opts.baseBuffer, svgBoundRadius + opts.baseBuffer, opts.platform.height, 64)
+    # # Number of faces around the cylinder
+    # basePlateMesh = new (THREE.Mesh)(basePlate, opts.material)
+    # rotateTransform = (new (THREE.Matrix4)).makeRotationX(Math.PI / 2)
+    # basePlateMesh.geometry.applyMatrix rotateTransform
+
+  # # # # #
+
+  getPlatformObject: (mesh, opts) ->
+    basePlateMesh = undefined
+
+    # Rectangular platform
+    # TODO - cicular platform
+    if opts.platform.shape == 'rect'
+      platformMesh = @getRectangularPlatform(mesh, opts)
+
+    # By default, base is straddling Z-axis, put it flat on the print surface.
+    translateTransform = new THREE.Matrix4().makeTranslation(0, 0, opts.platform.height / 2)
+    platformMesh.geometry.applyMatrix(translateTransform)
+
+    return platformMesh
+
+  # # # # #
+
+  # Platform Helper
+  setPlatform: (mesh, opts) ->
+    return mesh unless opts.platform.enabled
+
+    console.log 'PLATFORM IS ENABLED'
+
+    # Offset mesh to accomodate platform height
+    # Shift the SVG portion away from the bed to account for the base
+    translateTransform = new THREE.Matrix4().makeTranslation(0, 0, opts.platform.height)
+    mesh.geometry.applyMatrix(translateTransform)
+
+    # # # # #
+
+    # Gets platform object
+    platform_mesh = @getPlatformObject(mesh, opts)
+    # basePlateMesh = getBasePlateObject(options, mesh)
+
+    # For constructive solid geometry (CSG) actions
+    baseCSG = new ThreeBSP(platform_mesh)
+    svgCSG = new ThreeBSP(mesh)
+
+    # # If we haven't inverted the type, the SVG is "inside-out"
+    if !opts.wantInvertedType
+      svgCSG = new ThreeBSP(svgCSG.tree.clone().invert())
+
+    # Positive typeDepth means raised
+    # Negative typeDepth means sunken
+    # TODO - should be range slider from (-x - x)
+    if opts.typeDepth > 0
+      finalObj = baseCSG.union(svgCSG).toMesh(opts.material)
+    else
+      finalObj = baseCSG.intersect(svgCSG).toMesh(opts.material)
+
+    # Merges mesh and platform
+    return finalObj
 
   # Wireframe Helper
   setWireframe: (mesh, opts) ->
@@ -128,6 +208,9 @@ class ObjectBuilder
 
     # Create an extrusion from the SVG path shapes
     svgMesh = @extrudeSVG(paths, options)
+
+    # Creates a platform and attaches to svgMesh, if platform.enabled
+    svgMesh = @setPlatform(svgMesh, options)
 
     # Array of objects returned by this method
     # Each object will be rendered in the THREE scene

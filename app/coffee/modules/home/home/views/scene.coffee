@@ -26,8 +26,11 @@ class RenderView extends Marionette.LayoutView
   # Initializes THREE.js scene
   initScene: =>
     # Dimensions
-    canvasWidth  = window.innerWidth / 2 - 100
-    canvasHeight = window.innerHeight - 60
+    # TODO - this should be standardized
+    # canvasWidth  = window.innerWidth / 2 - 100
+    # canvasHeight = window.innerHeight - 60
+    canvasWidth  = 1200
+    canvasHeight = 900
 
     # Renderer Setup
     # TODO - use @sceneConfig
@@ -49,15 +52,15 @@ class RenderView extends Marionette.LayoutView
     @controls.maxDistance = 200
 
     # Lights
-    @scene.add new THREE.AmbientLight(0x222222)
+    # @scene.add new THREE.AmbientLight(0x222222)
 
     # Lights
-    light = new THREE.DirectionalLight(0x222222)
+    light = new THREE.DirectionalLight(0xF3F3F3)
     light.position.set(0.75, 0.75, 1.0).normalize()
     @scene.add(light)
 
     # Lights
-    light = new THREE.PointLight(0x222222)
+    light = new THREE.PointLight(0xF3F3F3)
     light.position.copy(@camera.position)
     @scene.add(light)
 
@@ -71,16 +74,22 @@ class RenderView extends Marionette.LayoutView
     @scene.add(@group)
 
     # Triggers frame animation
-    @animate()
+    # @animate()
+    @startAnimate()
 
     # WindowResize event handler
     window.addEventListener 'resize', @onWindowResize, false
 
   # # # # #
 
+  startAnimate: =>
+    setInterval( =>
+      requestAnimationFrame(@animate)
+    , 50)
+
   # Manages frame-by-frame animation in THREE.js scene
   animate: =>
-    requestAnimationFrame(@animate)
+    # requestAnimationFrame(@animate)
     @controls.update()
     @renderer.render(@scene, @camera)
     return

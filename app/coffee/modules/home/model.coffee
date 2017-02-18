@@ -11,6 +11,18 @@ RenderSetting.setup()
 
 # # # # #
 
+class PlatformSetting extends RenderSetting
+
+  defaults:
+    enabled:  true
+    shape:    'rect' # or 'circ'
+    height:   5
+    buffer:   5
+
+PlatformSetting.setup()
+
+# # # # #
+
 class FormModel extends Backbone.RelationalModel
 
   # TODO - validations
@@ -25,20 +37,16 @@ class FormModel extends Backbone.RelationalModel
     svgWindingIsCW:   false
     bevelEnabled:     false
 
-    # Base Options
-    base:
-      enabled:  true
-      shape:    'rect' # or 'circ'
-      height:   5
-      buffer:   5
+    # Platform Options
+    platform: {}
 
     # Rendering Options
     # TODO - should this be part of an object sub model?
-    objectColor:      '#666666'
+    objectColor:      '#333333'
 
     edges:
       color:    0xffffff
-      enabled:  true
+      enabled:  false
 
     normals:
       color:    0x000000
@@ -61,6 +69,10 @@ class FormModel extends Backbone.RelationalModel
       type: Backbone.HasOne
       key: 'wireframe'
       relatedModel: RenderSetting
+    ,
+      type: Backbone.HasOne
+      key: 'platform'
+      relatedModel: PlatformSetting
   ]
 
   initialize: (options={}) ->
