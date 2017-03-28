@@ -15,7 +15,7 @@ class SidebarView extends Marionette.LayoutView
 
   modules: [
     { title:  'Home', icon: 'fa-home', href: '#', divider: true }
-    { title:  'Python', icon: 'fa-terminal', href: '#python', divider: true }
+    # { title:  'Python', icon: 'fa-terminal', href: '#python', divider: true }
   ]
 
   serializeData: ->

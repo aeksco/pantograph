@@ -3,6 +3,9 @@ class BaseForm extends Marionette.LayoutView
   template: require './templates/platform_form'
   className: 'row'
 
+  behaviors:
+    BootstrapSwitch: {}
+
   # TODO - this should be a behavior
   ui:
     checkbox: 'input[type=checkbox]'
@@ -11,6 +14,7 @@ class BaseForm extends Marionette.LayoutView
     'change @ui.checkbox':'updateAttrs'
     'input input':  'updateAttrs'
     'click .toggle-form': 'toggleForm' # TODO - behavior
+    'switchChange.bootstrapSwitch @ui.checkbox':  'updateAttrs' # TODO - behavior
 
   toggleForm: ->
     @$('.form').slideToggle('fast')

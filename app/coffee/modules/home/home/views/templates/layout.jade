@@ -12,13 +12,15 @@
           hr.m-t-0
         .col-xs-12(data-region='edge-form')
 
-        .col-xs-12
-          hr.m-t-0
-        .col-xs-12(data-region='normals-form')
+        - hidden = { style: 'display:none;' }
 
-        .col-xs-12
+        .col-xs-12()&attributes(hidden)
           hr.m-t-0
-        .col-xs-12(data-region='wireframe-form')
+        .col-xs-12(data-region='normals-form')&attributes(hidden)
+
+        .col-xs-12()&attributes(hidden)
+          hr.m-t-0
+        .col-xs-12(data-region='wireframe-form')&attributes(hidden)
 
         .col-xs-12
           hr.m-t-0
