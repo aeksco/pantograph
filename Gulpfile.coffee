@@ -25,7 +25,7 @@ paths =
     platforms: ['osx64']
 
   sass:
-    src:  './app/sass/app.sass'
+    src:  './app/sass/manifest.sass'
     dest: './build/css/'
 
   copy:
@@ -61,7 +61,6 @@ paths =
       nodeModules + 'backbone-routing/dist/backbone-routing.js'
       nodeModules + 'backbone.radio/build/backbone.radio.js'
       nodeModules + 'backbone.syphon/lib/backbone.syphon.js'
-      nodeModules + 'backbone.dualStorage/backbone.dualStorage.js'
 
       # Marionette
       nodeModules + 'marionette-service/dist/marionette-service.js'
@@ -74,9 +73,6 @@ paths =
 
       # Utility
       nodeModules + 'bluebird/js/browser/bluebird.min.js'
-      nodeModules + 'hammerjs/hammer.js'
-      nodeModules + 'moment/moment.js'
-      nodeModules + 'filer.js/dist/filer.min.js'
       nodeModules + 'potrace/potrace.js'
       # nodeModules + 'd3/build/d3.js'
 

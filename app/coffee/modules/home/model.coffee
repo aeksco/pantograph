@@ -86,4 +86,4 @@ class FormModel extends Backbone.RelationalModel
 
 # # # # #
 
-module.exports = FormModel
+module.exports = new FormModel()
