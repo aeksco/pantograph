@@ -8,10 +8,9 @@ class AppLayout extends Marionette.LayoutView
   template: false
 
   regions:
-    mainRegion: '[data-region=main]'
-    flashRegion:    '[data-region=flash]'
-    overlayRegion:  '[data-region=overlay]'
-    sidebarRegion:  '[data-region=sidebar]'
+    main:     '[data-region=main]'
+    flash:    '[data-region=flash]'
+    overlay:  '[data-region=overlay]'
 
 # # # # #
 
