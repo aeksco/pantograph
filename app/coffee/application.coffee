@@ -4,36 +4,14 @@
 # mobile device on which the app is running
 class Application extends Marionette.Service
 
+  # Starts the application immediately
   initialize: ->
-
-    # Listener for 'deviceready' event
-    # fired when the Cordova framework has successfully initialized
-    document.addEventListener 'deviceready', @onDeviceReady, false
-
-    # Starts application without 'deviceready' event
-    # Used while debugging the application in-browser
-    # window.ble is only defined when the app is running
-    # on a mobile device
-    # setTimeout( =>
-    #   @onDeviceReady() unless window.ble
-    # , 1000)
-
-    setTimeout( =>
-      @onDeviceReady() unless window.ble
-    , 100)
-
-    return true
+    @onReady()
 
   # Starts the application
   # Starts Backbone.history (enables routing)
-  # And initializes header and sidebar modules
-  onDeviceReady: ->
+  onReady: ->
     Backbone.history.start()
-    Backbone.Radio.channel('sidebar').trigger('initialize') # TODO - need sidebar?
-
-    # TODO - abstract into header component
-    $('.navbar-brand').on 'click', =>
-      Backbone.Radio.channel('sidebar').trigger('toggle')
 
 # # # # #
 
