@@ -1,8 +1,8 @@
 
-# CordovaApp class definition
+# Application class definition
 # Manages lifecycle and bootstraps application
 # mobile device on which the app is running
-class CordovaApp extends Marionette.Service
+class Application extends Marionette.Service
 
   initialize: ->
 
@@ -29,7 +29,7 @@ class CordovaApp extends Marionette.Service
   # And initializes header and sidebar modules
   onDeviceReady: ->
     Backbone.history.start()
-    Backbone.Radio.channel('sidebar').trigger('initialize')
+    Backbone.Radio.channel('sidebar').trigger('initialize') # TODO - need sidebar?
 
     # TODO - abstract into header component
     $('.navbar-brand').on 'click', =>
@@ -37,4 +37,4 @@ class CordovaApp extends Marionette.Service
 
 # # # # #
 
-module.exports = CordovaApp
+module.exports = Application

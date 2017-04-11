@@ -8,15 +8,15 @@
 require './config'
 
 # Application
-CordovaApp = require './cordova_app'
+Application = require './application'
 
 # Application Layout
+# TODO - ditch references to window.Layout
 window.Layout = AppLayout = require './application/layout'
 
 # Components are routeless services with views that are
 # accessible anywhere in the application
 # Used to manage the header, sidebar, flash, and confirm UI elements
-SidebarComponent  = require './components/sidebar/component'
 ConfirmComponents = require './components/confirm/component'
 
 # Henson.js Components
@@ -33,4 +33,4 @@ HomeModule = require './modules/home/router'
 # # # # #
 
 # Page has loaded, document is ready
-$(document).on 'ready', => new CordovaApp()
+$(document).on 'ready', => new Application()

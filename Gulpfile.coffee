@@ -11,7 +11,7 @@ paths =
   jadeSrc:      './app/index.jade'
 
   bundle:
-    src: 'coffee/app.coffee'
+    src: 'coffee/manifest.coffee'
     dest: 'app.js'
 
   server_bundle:
