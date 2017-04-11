@@ -37,14 +37,6 @@ paths =
       src:  './app/img/*'
       dest: './build/img'
 
-    # python:
-    #   src:  './app/python/*'
-    #   dest: './build/python'
-
-    python:
-      src:  nodeModules + 'bootstrap-colorpicker/dist/img/bootstrap-colorpicker/*'
-      dest: './build/img/bootstrap-colorpicker'
-
   concat:
     dest: 'vendor.js'
     src: [
@@ -159,22 +151,16 @@ gulp.task 'nodewebkit_release', ->
     console.error error
     return
 
-# Copy Python files
-gulp.task 'copy_python', ->
-  gulp.src paths.copy.python.src
-    .pipe plugins.plumber()
-    .pipe gulp.dest paths.copy.python.dest
-
 # # # # #
 
 # Build tasks
 gulp.task 'default', ['dev']
 
 gulp.task 'dev', =>
-  plugins.runSequence.use(gulp)('env_dev', 'copy_fontawesome', 'copy_python', 'copy_images', 'sass', 'jade', 'concat', 'bundle', 'watch', 'webserver')
+  plugins.runSequence.use(gulp)('env_dev', 'copy_fontawesome', 'copy_images', 'sass', 'jade', 'concat', 'bundle', 'watch', 'webserver')
 
 gulp.task 'release', =>
-  plugins.runSequence.use(gulp)('env_prod', 'copy_fontawesome', 'copy_python', 'copy_images', 'sass', 'jade', 'concat', 'bundle', => console.log 'Release completed.' )
+  plugins.runSequence.use(gulp)('env_prod', 'copy_fontawesome', 'copy_images', 'sass', 'jade', 'concat', 'bundle', => console.log 'Release completed.' )
 
 gulp.task 'nwk_release', =>
-  plugins.runSequence.use(gulp)('env_dev', 'copy_fontawesome', 'copy_python', 'copy_images', 'sass', 'jade', 'concat', 'bundle', 'nodewebkit_package', 'nodewebkit_release', => console.log 'NWK Release completed.' )
+  plugins.runSequence.use(gulp)('env_dev', 'copy_fontawesome', 'copy_images', 'sass', 'jade', 'concat', 'bundle', 'nodewebkit_package', 'nodewebkit_release', => console.log 'NWK Release completed.' )

@@ -81,7 +81,7 @@ class FormModel extends Backbone.RelationalModel
   ]
 
   initialize: (options={}) ->
-    # TODO - ObjectBuilder should not be attached to the model
+    # TODO - ObjectBuilder should not be attached to the model?
     @objectBuilder = new ObjectBuilder()
 
 # # # # #
