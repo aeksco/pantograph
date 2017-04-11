@@ -1,20 +1,20 @@
 include ../../../../../../partials/form_helpers
 
-.col-xs-6
+.col-lg-6
   p.lead= title
 
-.col-xs-6.text-xs-right
+.col-lg-6.text-right
   .btn.btn-sm.btn-secondary(data-click='toggle-form')
     i.fa.fa-chevron-down
 
-.col-xs-12
+.col-lg-12
 
   .row(data-toggle='form' style='display:none;')
-    .col-xs-6
+    .col-lg-6
       //- +formInput({ label: 'Enabled', name: 'enabled', type: 'checkbox' })
       +formInput({ name: 'enabled', type: 'checkbox' })
 
-    .col-xs-6
+    .col-lg-6
       //- +formInput({ label: 'Color (hex)', placeholder: 'Color', name: 'color', type: 'text' })
 
       //- TODO - move to form helpers?
