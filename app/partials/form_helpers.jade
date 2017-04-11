@@ -12,6 +12,12 @@ mixin formInput(opts)
 
 //- // // // // //
 
+mixin formRange(opts)
+  +formGroup(opts)
+    input.form-control( name=opts.name, type=opts.type, max=opts.max, min=opts.mixin, defaultValue=opts.default )&attributes(attributes)
+
+//- // // // // //
+
 mixin formTextArea(opts)
   +formGroup(opts)
     textarea.form-control( placeholder=opts.placeholder, name=opts.name, type=opts.type, rows=opts.rows, cols=opts.cols )&attributes(attributes)

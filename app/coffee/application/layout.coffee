@@ -8,17 +8,9 @@ class AppLayout extends Marionette.LayoutView
   template: false
 
   regions:
-    mainRegion:
-      selector:     '[data-region=main]'
-      regionClass:  require './regions/animatedRegion'
-
-    modalRegion:
-      selector:     '[data-region=modal]'
-      regionClass:  require './regions/modalRegion'
-
-    flashRegion:    '[data-region=flash]'
-    overlayRegion:  '[data-region=overlay]'
-    sidebarRegion:  '[data-region=sidebar]'
+    main:     '[data-region=main]'
+    flash:    '[data-region=flash]'
+    overlay:  '[data-region=overlay]'
 
 # # # # #
 

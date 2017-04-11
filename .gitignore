@@ -18,3 +18,8 @@ cache
 # IDE stuff
 __pycache__*
 
+# Images
+*.png
+*.jpg
+*.svg
+*.pbm

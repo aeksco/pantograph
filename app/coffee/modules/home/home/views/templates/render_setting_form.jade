@@ -1,0 +1,24 @@
+include ../../../../../../partials/form_helpers
+
+.col-lg-6
+  p.lead= title
+
+.col-lg-6.text-right
+  .btn.btn-sm.btn-secondary(data-click='toggle-form')
+    i.fa.fa-chevron-down
+
+.col-lg-12
+
+  .row(data-toggle='form' style='display:none;')
+    .col-lg-6
+      //- +formInput({ label: 'Enabled', name: 'enabled', type: 'checkbox' })
+      +formInput({ name: 'enabled', type: 'checkbox' })
+
+    .col-lg-6
+      //- +formInput({ label: 'Color (hex)', placeholder: 'Color', name: 'color', type: 'text' })
+
+      //- TODO - move to form helpers?
+      .input-group.colorpicker-element
+        input.form-control(type='hidden', name='color', placeholder='Color')
+        span.input-group-addon( style='padding: 0.75rem; border: 1px solid #ccc;' )
+          i

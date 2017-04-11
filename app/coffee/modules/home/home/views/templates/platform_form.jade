@@ -1,0 +1,19 @@
+include ../../../../../../partials/form_helpers
+
+.col-lg-6
+  p.lead Platform
+
+.col-lg-6.text-right
+  .btn.btn-sm.btn-secondary.toggle-form
+    i.fa.fa-chevron-down
+
+.col-lg-12.form(style='display:none;')
+  .row
+    .col-lg-12
+      +formInput({ label: 'Height', placeholder: 2, name: 'height', type: 'number' })
+
+    //- .col-lg-12
+    //-   +formInput({ label: 'Buffer', placeholder: 2, name: 'buffer', type: 'number' })
+
+    .col-lg-12
+      +formInput({ label: 'Enabled', name: 'enabled', type: 'checkbox' })

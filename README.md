@@ -19,6 +19,10 @@
 
 - [Marionette.js](http://marionettejs.com/)
 
+- [Three.js STL Exporter](https://github.com/atnartur/three-STLexporter)
+
+- [JS Color Picker](http://jscolor.com/)
+
 
 #### Building the App
 - ```npm install -g gulp```
@@ -28,3 +32,9 @@
 
 #### Resources
 [Install OpenCV on MacOX](http://www.pyimagesearch.com/2016/12/19/install-opencv-3-on-macos-with-homebrew-the-easy-way/)
+
+[Image to STL](http://aggregate.org/MAKE/TRACE2SCAD/)
+
+[Potrace Python](https://pypi.python.org/pypi/pypotrace)
+[Potrace Python](https://github.com/flupke/pypotrace)
+[Potrace Licensing](http://www.icosasoft.ca/)

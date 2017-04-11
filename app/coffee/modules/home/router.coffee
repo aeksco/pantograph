@@ -1,26 +1,21 @@
-HomeRoute   = require './home/route'
-UploadRoute = require './upload/route'
-PythonRoute = require './python/route'
+HomeRoute = require './home/route'
+AboutRoute = require './about/route'
 
 # # # # #
 
 # HomeRouter class definition
-class HomeRouter extends require '../base/router'
+class HomeRouter extends require 'hn_routing/lib/router'
 
   routes:
-    '(/)':        'home'
-    'upload(/)':  'upload'
-    'python(/)':  'python'
+    '(/)':      'home'
+    'about(/)': 'about'
 
   home: ->
     new HomeRoute({ container: @container })
 
-  upload: ->
-    new UploadRoute({ container: @container })
-
-  python: ->
-    new PythonRoute({ container: @container })
+  about: ->
+    new AboutRoute({ container: @container })
 
 # # # # #
 
-module.exports = new HomeRouter({ container: window.Layout.mainRegion })
+module.exports = HomeRouter
