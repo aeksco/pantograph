@@ -8,16 +8,11 @@
 require './config'
 
 # Application
-Application = require './application'
+Application = require './app'
 
 # Application Layout
 # TODO - ditch references to window.Layout
 window.Layout = AppLayout = require './application/layout'
-
-# Components are routeless services with views that are
-# accessible anywhere in the application
-# Used to manage the header, sidebar, flash, and confirm UI elements
-ConfirmComponents = require './components/confirm/component'
 
 # Henson.js Components
 OverlayComponent  = require 'hn_overlay/lib/component'
