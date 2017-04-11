@@ -1,5 +1,4 @@
-HomeRoute   = require './home/route'
-PythonRoute = require './python/route'
+HomeRoute = require './home/route'
 
 # # # # #
 
@@ -8,14 +7,10 @@ class HomeRouter extends require '../base/router'
 
   routes:
     '(/)':        'home'
-    'python(/)':  'python'
 
   home: ->
     new HomeRoute({ container: @container })
 
-  python: ->
-    new PythonRoute({ container: @container })
-
 # # # # #
 
-module.exports = new HomeRouter({ container: window.Layout.mainRegion })
+module.exports = HomeRouter
