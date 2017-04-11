@@ -1,5 +1,18 @@
 nav.navbar.navbar-dark.bg-inverse.navbar-static-top
 
-  a.navbar-brand
+  a.navbar-brand(href='#')
     i.fa.fa-fw.fa-copy
     | PANTOGRAPH
+
+  .collapse.navbar-collapse
+    ul.navbar-nav.mr-auto
+      li.nav-item.active
+        a.nav-link(href='#')
+          | Home
+          span.sr-only (current)
+
+      li.nav-item
+        a.nav-link(href='#') Link
+
+      li.nav-item
+        a.nav-link.disabled(href='#') Disabled
