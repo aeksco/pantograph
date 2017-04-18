@@ -19,15 +19,21 @@ class RenderSettingsForm extends Marionette.LayoutView
     'click @ui.toggleForm': 'toggleForm' # TODO - behavior
     'switchChange.bootstrapSwitch @ui.checkbox':  'updateAttrs'
 
+  initialize: ->
+
+    # Declares throttled swap method
+    modelChangeCallback = => return @model.parent.trigger('child:change')
+    @onChange = _.debounce(modelChangeCallback, 250)
+
   toggleForm: ->
     @ui.toggleTarget.slideToggle('fast')
 
   modelEvents:
     'change': 'onModelChange'
 
-  # TODO - This is a little hack-ey
+  # TODO - this is a bit hackey
   onModelChange: ->
-    @model.parent.trigger('child:change')
+    @onChange()
 
   templateHelpers: ->
     return { title: @options.title }
