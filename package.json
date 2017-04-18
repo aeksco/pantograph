@@ -21,6 +21,7 @@
     "gulp_tasks": "https://github.com/aeksco/gulp_tasks",
     "hn_flash": "git+https://github.com/HensonJS/hn_flash.git",
     "hn_overlay": "git+https://github.com/HensonJS/hn_overlay.git",
+    "hn_regions": "git+https://github.com/HensonJS/hn_regions.git",
     "hn_routing": "git+https://github.com/HensonJS/hn_routing.git",
     "jquery": "~2.1",
     "marionette-service": "~0.0",
