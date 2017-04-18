@@ -4,12 +4,9 @@ html
     meta( http-equiv='X-UA-Compatible', content='IE=edge,chrome=1' )
     meta( name='viewport', content='width=device-width' )
     meta( charset='utf-8' )
-
-    script( src='js/vendor.js' )
-    script( src='js/app.js' )
     link( rel='stylesheet', type='text/css', href='css/app.min.css' )
+    title Pantograph
 
-    title Pantograph CV
   body
 
     .header-region( data-region='header' )
@@ -17,3 +14,7 @@ html
 
     .main-region( data-region='main' )
     .modal-region( data-region='modal' )
+
+    //- Loads scripts last
+    script( src='js/vendor.js' )
+    script( src='js/app.js' )

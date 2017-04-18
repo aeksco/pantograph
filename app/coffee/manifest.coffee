@@ -12,8 +12,8 @@ App       = require './application/app'
 AppLayout = require './application/layout'
 
 # Henson.js Components
-ModalComponent = require 'hn_modal/lib/component'
-new ModalComponent({ container: AppLayout.modal })
+AboutComponent = require './components/about/component'
+new AboutComponent({ container: AppLayout.modal })
 
 # Modules represent collections of endpoints in the application.
 # They have routes and entities (models and collections)

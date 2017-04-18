@@ -10,7 +10,7 @@ class AppLayout extends Marionette.LayoutView
   regions:
     main:     '[data-region=main]'
     modal:
-      selector:     '[app-region=modal]'
+      selector:     '[data-region=modal]'
       regionClass:  require 'hn_regions/lib/regions/modal'
 
 # # # # #
