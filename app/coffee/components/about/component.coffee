@@ -9,7 +9,7 @@ class AboutComponent extends require 'hn_modal/lib/abstract'
 
   showAbout: ->
     aboutView = new AboutView()
-    @showModal(aboutView)
+    @showModal(aboutView, { size: 'large' })
 
 # # # # #
 
