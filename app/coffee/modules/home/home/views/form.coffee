@@ -7,6 +7,15 @@ class FormView extends Marionette.LayoutView
   events:
     'input input':  'updateAttrs'
 
+  initialize: ->
+
+    # Declares throttled swap method
+    modelChangeCallback = =>
+      attrs = Backbone.Syphon.serialize(@)
+      return @model.set(attrs)
+
+    @onChange = _.debounce(modelChangeCallback, 500 )
+
   onRender: ->
     @setFormData()
 
@@ -26,8 +35,7 @@ class FormView extends Marionette.LayoutView
 
   updateAttrs: (e) ->
     e.stopPropagation()
-    attrs = Backbone.Syphon.serialize(@)
-    @model.set(attrs)
+    @onChange()
 
 # # # # #
 

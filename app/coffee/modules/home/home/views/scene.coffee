@@ -27,10 +27,8 @@ class RenderView extends Marionette.LayoutView
   initScene: =>
     # Dimensions
     # TODO - this should be standardized
-    canvasWidth  = window.innerWidth / 2 - 100
-    canvasHeight = window.innerHeight - 60
-    # canvasWidth  = 1200
-    # canvasHeight = 900
+    canvasWidth  = (window.innerWidth / 2) - 100
+    canvasHeight = (window.innerHeight) - 60
 
     # Renderer Setup
     # TODO - use @sceneConfig
@@ -84,7 +82,7 @@ class RenderView extends Marionette.LayoutView
   startAnimate: =>
     setInterval( =>
       requestAnimationFrame(@animate)
-    , 50)
+    , 25)
 
   # Manages frame-by-frame animation in THREE.js scene
   animate: =>
@@ -94,13 +92,12 @@ class RenderView extends Marionette.LayoutView
 
   # TODO - debug this
   onWindowResize: =>
-    console.log 'ON WINDOW RESIZE'
-    # canvasWidth  = window.innerWidth / 2 - 100
-    # canvasHeight = window.innerHeight - 60
-    # @camera.aspect = canvasWidth / canvasHeight
-    # @camera.updateProjectionMatrix()
-    # @renderer.setSize(canvasWidth, canvasHeight)
-    # return
+    canvasWidth  = (window.innerWidth / 2) - 100
+    canvasHeight = (window.innerHeight) - 60
+    @camera.aspect = canvasWidth / canvasHeight
+    @camera.updateProjectionMatrix()
+    @renderer.setSize(canvasWidth, canvasHeight)
+    return
 
   # Removes items from group (used before re-render)
   # clearGroup: =>
