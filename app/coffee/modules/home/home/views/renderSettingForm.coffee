@@ -23,7 +23,7 @@ class RenderSettingsForm extends Marionette.LayoutView
 
     # Declares throttled swap method
     modelChangeCallback = => return @model.parent.trigger('child:change')
-    @onChange = _.debounce(modelChangeCallback, 250)
+    @onChange = _.debounce(modelChangeCallback, 150)
 
   toggleForm: ->
     @ui.toggleTarget.slideToggle('fast')

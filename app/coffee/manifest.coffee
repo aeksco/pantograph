@@ -12,11 +12,8 @@ App       = require './application/app'
 AppLayout = require './application/layout'
 
 # Henson.js Components
-# TODO - are these needed?
-OverlayComponent  = require 'hn_overlay/lib/component'
-FlashComponent    = require 'hn_flash/lib/component'
-new OverlayComponent({ container: AppLayout.overlay })
-new FlashComponent({ container: AppLayout.flash })
+AboutComponent = require './components/about/component'
+new AboutComponent({ container: AppLayout.modal })
 
 # Modules represent collections of endpoints in the application.
 # They have routes and entities (models and collections)
