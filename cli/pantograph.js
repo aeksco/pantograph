@@ -1,11 +1,11 @@
 // // // // //
 // Dependencies
-import fs       from 'fs';
-import potrace  from 'potrace';
-import THREE    from 'three.js-node';
-import ObjectBuilder from './objectBuilder';
-import ThreeScene from './three_scene';
-// import Group from './three_scene';
+import fs             from 'fs';
+import potrace        from 'potrace';
+import THREE          from 'three.js-node';
+import ObjectBuilder  from './objectBuilder';
+import ThreeScene     from './three_scene';
+import STLExporter    from 'three-stlexporter';
 
 // TODO - remove after flatten is working.
 import Paths from './paths_test'
@@ -14,7 +14,6 @@ import Paths from './paths_test'
 // CLI Args
 let inputImage  = process.argv[3];
 let outputImage = process.argv[4];
-
 
 // CLI Error message
 if (!inputImage) {
@@ -46,16 +45,22 @@ var traceImage = inputImage => {
 
 // // // // //
 
-// // # Writes output to file
-// // fs.writeFile jsonOutputFile, JSON.stringify(output, null, 2), (err) =>
+// Writes STL to file
+var writeToFile = stl => {
+  return new Promise((resolve, reject) => {
 
-// //   # Error handling
-// //   throw err if err
+    // Writes to file
+    fs.writeFile('result.stl', stl, err => {
 
-// //   # Pipes the CSV output
-// //   console.log 'DONE'
+      // Error handling
+      if (err) { return reject(err); }
 
-// // return
+      // Pipes the CSV output
+      return resolve(true);
+    });
+
+  });
+}
 
 // // // // //
 // Object Builder
@@ -105,7 +110,14 @@ var buildObject = (paths, options) => {
 //   // console.log(svg)
 // })
 
+
+// Builds Objects
 let objects = buildObject(Paths, buildOptions);
+
+// Add Objects to scene
+for (let obj of Array.from(objects)) {
+  ThreeScene.group.add(obj);
+}
 
 // console.log("BUILD OBJECTS");
 // console.log(ThreeScene.group);
@@ -115,7 +127,17 @@ let objects = buildObject(Paths, buildOptions);
 
 // // // // //
 
+// New STLExporter
+let exporter = new STLExporter()
 
-// exporter = new THREE.STLExporter()
-// scene = @renderView.scene
-// stl = exporter.parse( scene )
+// Exports STL from Scene
+let stl = exporter.parse(ThreeScene.scene)
+
+
+console.log('EXPORTER???');
+
+console.log(ThreeScene.group);
+// console.log(stl);
+// console.log(typeof(stl));
+
+// writeToFile(stl);

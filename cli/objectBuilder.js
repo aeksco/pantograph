@@ -19,7 +19,7 @@ export default class ObjectBuilder {
     // Iterates over each path...
     for (let each of Array.from(paths)) {
 
-      console.log(each);
+      // console.log(each);
 
       // Turn each SVG path into a three.js shape
       let path = transformSVGPath(each);
