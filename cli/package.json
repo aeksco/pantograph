@@ -1,0 +1,19 @@
+{
+  "name": "pantograph_cv_cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "potrace": "git+https://github.com/tooolbox/node-potrace.git",
+    "three-stlexporter": "^1.0.0",
+    "three.js-node": "^0.72.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1"
+  }
+}
