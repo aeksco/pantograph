@@ -68,6 +68,9 @@ paths =
       nodeModules + 'potrace/potrace.js'
       # nodeModules + 'd3/build/d3.js'
 
+      # UI
+      nodeModules + 'rangeslider.js/dist/rangeslider.js'
+
       # Three.js
       # nodeModules + 'three/build/three.js' # 0.84
       nodeModules + 'three/three.js' # 0.73
