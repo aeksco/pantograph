@@ -8,8 +8,8 @@ class PlatformForm extends Marionette.LayoutView
     BootstrapSwitch: {}
 
   ui:
-    shape:      '[data-shape]'
-    shapeInput: 'input[name=shape]'
+    shape:        '[data-shape]'
+    shapeInput:   'input[name=shape]'
 
   events:
     'click @ui.shape': 'onShapeChange'

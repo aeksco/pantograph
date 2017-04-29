@@ -3,7 +3,6 @@ class EnableToggler extends Mn.Behavior
 
   ui:
     enableButton: '[data-enabled]'
-    enableInput:  'input[name=enabled]'
 
   events:
     'click @ui.enableButton': 'onEnableChange'
@@ -17,8 +16,13 @@ class EnableToggler extends Mn.Behavior
     el.blur()
 
     # Updates input
-    enable = el.data('enable')
-    @ui.shapeInput.val(enable).trigger('change')
+    enable = el.data('enabled')
+    state = if enable == 1 then true else false
+
+    # Input El
+    el = $("input[name=#{@options.targetName}]")
+    el.val(state)
+    el.trigger('change')
 
 # # # # #
 
