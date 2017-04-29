@@ -19,8 +19,8 @@ class ObjectBuilder
       path = d3.transformSVGPath(each)
 
       # We may have had the winding order backward.
-      # TODO - the Path.prototype.toShapes method is not defined in Three.js v0.84
-      newShapes = path.toShapes(options.svgWindingIsCW)
+      # NOTE - the Path.prototype.toShapes method is not defined in Three.js v0.84
+      newShapes = path.toShapes(false)
 
       # Add these three.js shapes to an array.
       shapes = shapes.concat(newShapes)
@@ -51,7 +51,7 @@ class ObjectBuilder
 
     # Use negative scaling to invert the image
     # Why do we have to flip the image to keep original SVG orientation?
-    if !options.wantInvertedType
+    if !options.invert
       invertTransform = new THREE.Matrix4().makeScale(-1, 1, 1)
       extruded.applyMatrix(invertTransform)
 
@@ -158,7 +158,7 @@ class ObjectBuilder
     svgCSG = new ThreeBSP(mesh)
 
     # # If we haven't inverted the type, the SVG is "inside-out"
-    if !opts.wantInvertedType
+    if !opts.invert
       svgCSG = new ThreeBSP(svgCSG.tree.clone().invert())
 
     # Positive typeDepth means raised
@@ -188,7 +188,7 @@ class ObjectBuilder
 
     # Material (derived from color)
     # TODO - abstract into helper method
-    if options.wantInvertedType
+    if options.invert
       options.material = new THREE.MeshLambertMaterial({
         color:    options.color
         emissive: options.color

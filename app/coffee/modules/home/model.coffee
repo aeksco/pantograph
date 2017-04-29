@@ -38,14 +38,12 @@ class FormModel extends Backbone.RelationalModel
     id: 'default'
 
     # Core Options
-    typeSize:         60
-    typeDepth:        1
-    height:           2
-    wantInvertedType: false
-    svgWindingIsCW:   false
+    typeSize:   60
+    typeDepth:  1
+    height:     2
+    invert:     false
 
-    # TODO - bevel options
-    bevelEnabled:     false
+    bevelEnabled: false
 
     # Platform Options
     platform: {}
