@@ -7,7 +7,7 @@ class ObjectBuilder
   extrudeSVG: (paths, options) ->
 
     # Bevel?
-    # options.bevelEnabled = if options.typeDepth < 0 or !options.wantBasePlate then false else options.bevelEnabled
+    # options.bevelEnabled = if options.typeDepth < 0 or !options.platform.enabled then false else options.bevelEnabled
 
     # Shapes?
     shapes = []
@@ -19,14 +19,14 @@ class ObjectBuilder
       path = d3.transformSVGPath(each)
 
       # We may have had the winding order backward.
-      # TODO - the Path.prototype.toShapes method is not defined in Three.js v0.84
-      newShapes = path.toShapes(options.svgWindingIsCW)
+      # NOTE - the Path.prototype.toShapes method is not defined in Three.js v0.84
+      newShapes = path.toShapes(false)
 
       # Add these three.js shapes to an array.
       shapes = shapes.concat(newShapes)
 
     # Negative typeDepths are ok, but can't be deeper than the base
-    # if options.wantBasePlate and options.typeDepth < 0 and Math.abs(options.typeDepth) > options.platform.height
+    # if options.platform.enabled and options.typeDepth < 0 and Math.abs(options.typeDepth) > options.platform.height
     #   options.typeDepth = -1 * options.platform.height
 
     # Extrude all the shapes WITHOUT BEVEL
@@ -51,7 +51,7 @@ class ObjectBuilder
 
     # Use negative scaling to invert the image
     # Why do we have to flip the image to keep original SVG orientation?
-    if !options.wantInvertedType
+    if !options.invert
       invertTransform = new THREE.Matrix4().makeScale(-1, 1, 1)
       extruded.applyMatrix(invertTransform)
 
@@ -125,16 +125,16 @@ class ObjectBuilder
 
   getPlatformObject: (mesh, opts) ->
     # Rectangular platform
-    # TODO - cicular platform
     if opts.platform.shape == 'rect'
       platformMesh = @getRectangularPlatform(mesh, opts)
+
+    # Circular platform
     else
       platformMesh = @getCircularPlatform(mesh, opts)
 
     # By default, base is straddling Z-axis, put it flat on the print surface.
     translateTransform = new THREE.Matrix4().makeTranslation(0, 0, opts.platform.height / 2)
     platformMesh.geometry.applyMatrix(translateTransform)
-
     return platformMesh
 
   # # # # #
@@ -142,8 +142,6 @@ class ObjectBuilder
   # Platform Helper
   setPlatform: (mesh, opts) ->
     return mesh unless opts.platform.enabled
-
-    console.log 'PLATFORM IS ENABLED'
 
     # Offset mesh to accomodate platform height
     # Shift the SVG portion away from the bed to account for the base
@@ -160,7 +158,7 @@ class ObjectBuilder
     svgCSG = new ThreeBSP(mesh)
 
     # # If we haven't inverted the type, the SVG is "inside-out"
-    if !opts.wantInvertedType
+    if !opts.invert
       svgCSG = new ThreeBSP(svgCSG.tree.clone().invert())
 
     # Positive typeDepth means raised
@@ -173,20 +171,6 @@ class ObjectBuilder
 
     # Merges mesh and platform
     return finalObj
-
-  # Wireframe Helper
-  setWireframe: (mesh, opts) ->
-    return false unless opts.wireframe.enabled
-    wireframe = new THREE.WireframeHelper(mesh, opts.wireframe.color)
-    @objects.push(wireframe)
-    return
-
-  # Normals Helper
-  setNormals: (mesh, opts) ->
-    return false unless opts.normals.enabled
-    normals = new THREE.FaceNormalsHelper(mesh, 2, opts.normals.color, 1)
-    @objects.push(normals)
-    return
 
   # Edges helper
   setEdges: (mesh, opts) ->
@@ -204,7 +188,7 @@ class ObjectBuilder
 
     # Material (derived from color)
     # TODO - abstract into helper method
-    if options.wantInvertedType
+    if options.invert
       options.material = new THREE.MeshLambertMaterial({
         color:    options.color
         emissive: options.color
@@ -229,12 +213,6 @@ class ObjectBuilder
 
     # Add the final geometry to the scene
     @objects.push(svgMesh)
-
-    # Wireframe
-    @setWireframe(svgMesh, options)
-
-    # Normals
-    @setNormals(svgMesh, options)
 
     # Edges
     @setEdges(svgMesh, options)

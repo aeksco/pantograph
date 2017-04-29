@@ -1,0 +1,16 @@
+include ../../../../../../partials/form_helpers
+
+.col-lg-12
+  p.lead Object
+
+.col-lg-12
+  +formRange({ label: 'Height', name: 'height', type: 'range', max: 100, min: 1  })
+  +formRange({ label: 'Width', name: 'typeSize', type: 'range', max: 100, min: 60, formGroupCss: 'mb-0' })
+
+.col-lg-12
+  hr
+
+.col-lg-12
+  p.lead Bevel
+  +formInput({ label: 'Enabled', name: 'bevelEnabled', type: 'checkbox' })
+  +formRange({ label: 'Depth', name: 'typeDepth', type: 'range', max: 10, min: -10, formGroupCss: 'mb-0'  })

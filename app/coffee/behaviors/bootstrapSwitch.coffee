@@ -5,16 +5,14 @@ class BootstrapSwitch extends Mn.Behavior
   ui:
     checkbox: 'input[type=checkbox]'
 
-  # events:
-  #   'switchChange.bootstrapSwitch @ui.checkbox':  'updateAttrs'
+  events:
+    'switchChange.bootstrapSwitch @ui.checkbox':  '_on_switch_change'
 
   onRender: ->
     @ui.checkbox.bootstrapSwitch({ onText: 'Yes', offText: 'No' })
 
-  # updateAttrs: (e, val) =>
-  #   console.log e
-  #   console.log val
-  #   @view.updateAttrs() # TODO - clean this up
+  _on_switch_change: ->
+    @view.triggerMethod 'switch:change'
 
 # # # # #
 
