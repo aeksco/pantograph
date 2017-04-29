@@ -2,15 +2,20 @@ ObjectBuilder = require './objectBuilder'
 
 # # # # #
 
+# RenderSetting class definition
+# Defines a class to model the 'edges' attribute on the FormModel instance
 class RenderSetting extends Backbone.RelationalModel
 
   initialize: ->
     @parent = FormModel.find({ id: 'default' })
 
+# Backbone.RelationalModel.setup()
 RenderSetting.setup()
 
 # # # # #
 
+# PlatformSetting class definition
+# Defines a class to model the 'platform' attribute on the FormModel instance
 class PlatformSetting extends RenderSetting
 
   defaults:
@@ -19,15 +24,16 @@ class PlatformSetting extends RenderSetting
     height:   2
     buffer:   5
 
+# Backbone.RelationalModel.setup()
 PlatformSetting.setup()
 
 # # # # #
 
-# TODO - each one of these represents a SINGLE object
-# Ideally the tool would allow multiple objects to be placed?
+# FormModel class definition
+# Defines the top-level configuration model for ObjectBuilder
 class FormModel extends Backbone.RelationalModel
 
-  # TODO - validations
+  # Default attributes
   defaults:
     id: 'default'
 
@@ -45,20 +51,11 @@ class FormModel extends Backbone.RelationalModel
     platform: {}
 
     # Rendering Options
-    # TODO - should this be part of an object sub model?
-    objectColor:      '#333333'
+    objectColor:  '#333333'
 
     edges:
       color:    0xffffff
       enabled:  true
-
-    normals:
-      color:    0x000000
-      enabled:  false
-
-    wireframe:
-      color:    0xffffff
-      enabled:  false
 
   # Relations
   relations: [
@@ -67,20 +64,13 @@ class FormModel extends Backbone.RelationalModel
       relatedModel: RenderSetting
     ,
       type: Backbone.HasOne
-      key: 'normals'
-      relatedModel: RenderSetting
-    ,
-      type: Backbone.HasOne
-      key: 'wireframe'
-      relatedModel: RenderSetting
-    ,
-      type: Backbone.HasOne
       key: 'platform'
       relatedModel: PlatformSetting
   ]
 
+  # initialize
+  # Attaches new ObjectBuilder instance to the model
   initialize: (options={}) ->
-    # TODO - ObjectBuilder should not be attached to the model?
     @objectBuilder = new ObjectBuilder()
 
 # # # # #

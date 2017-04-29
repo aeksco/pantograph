@@ -7,7 +7,7 @@ class ObjectBuilder
   extrudeSVG: (paths, options) ->
 
     # Bevel?
-    # options.bevelEnabled = if options.typeDepth < 0 or !options.wantBasePlate then false else options.bevelEnabled
+    # options.bevelEnabled = if options.typeDepth < 0 or !options.platform.enabled then false else options.bevelEnabled
 
     # Shapes?
     shapes = []
@@ -26,7 +26,7 @@ class ObjectBuilder
       shapes = shapes.concat(newShapes)
 
     # Negative typeDepths are ok, but can't be deeper than the base
-    # if options.wantBasePlate and options.typeDepth < 0 and Math.abs(options.typeDepth) > options.platform.height
+    # if options.platform.enabled and options.typeDepth < 0 and Math.abs(options.typeDepth) > options.platform.height
     #   options.typeDepth = -1 * options.platform.height
 
     # Extrude all the shapes WITHOUT BEVEL
@@ -125,16 +125,16 @@ class ObjectBuilder
 
   getPlatformObject: (mesh, opts) ->
     # Rectangular platform
-    # TODO - cicular platform
     if opts.platform.shape == 'rect'
       platformMesh = @getRectangularPlatform(mesh, opts)
+
+    # Circular platform
     else
       platformMesh = @getCircularPlatform(mesh, opts)
 
     # By default, base is straddling Z-axis, put it flat on the print surface.
     translateTransform = new THREE.Matrix4().makeTranslation(0, 0, opts.platform.height / 2)
     platformMesh.geometry.applyMatrix(translateTransform)
-
     return platformMesh
 
   # # # # #
@@ -142,8 +142,6 @@ class ObjectBuilder
   # Platform Helper
   setPlatform: (mesh, opts) ->
     return mesh unless opts.platform.enabled
-
-    console.log 'PLATFORM IS ENABLED'
 
     # Offset mesh to accomodate platform height
     # Shift the SVG portion away from the bed to account for the base
@@ -173,20 +171,6 @@ class ObjectBuilder
 
     # Merges mesh and platform
     return finalObj
-
-  # Wireframe Helper
-  setWireframe: (mesh, opts) ->
-    return false unless opts.wireframe.enabled
-    wireframe = new THREE.WireframeHelper(mesh, opts.wireframe.color)
-    @objects.push(wireframe)
-    return
-
-  # Normals Helper
-  setNormals: (mesh, opts) ->
-    return false unless opts.normals.enabled
-    normals = new THREE.FaceNormalsHelper(mesh, 2, opts.normals.color, 1)
-    @objects.push(normals)
-    return
 
   # Edges helper
   setEdges: (mesh, opts) ->
@@ -229,12 +213,6 @@ class ObjectBuilder
 
     # Add the final geometry to the scene
     @objects.push(svgMesh)
-
-    # Wireframe
-    @setWireframe(svgMesh, options)
-
-    # Normals
-    @setNormals(svgMesh, options)
 
     # Edges
     @setEdges(svgMesh, options)

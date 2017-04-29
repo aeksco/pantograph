@@ -37,7 +37,6 @@ class FormBehavior extends Mn.Behavior
     Backbone.Syphon.deserialize( @view, @view.model.toJSON() )
 
   updateAttrs: (e) ->
-    console.log 'UPDATED!'
     e?.stopPropagation()
     attrs = Backbone.Syphon.serialize(@view)
     @view.model.set(attrs)

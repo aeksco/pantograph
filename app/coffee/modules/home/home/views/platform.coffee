@@ -18,7 +18,6 @@ class PlatformForm extends Marionette.LayoutView
     'change': 'onModelChange'
 
   onShapeChange: (e) ->
-    # console.log 'onShapeChange'
 
     # Updates UI
     el = @$(e.currentTarget)
@@ -28,8 +27,7 @@ class PlatformForm extends Marionette.LayoutView
 
     # Updates platform shape
     shape = el.data('shape')
-    console.log shape
-    @ui.shapeInput.val(shape)
+    @ui.shapeInput.val(shape).trigger('change')
 
   onModelChange: ->
     @model.parent.trigger('child:change')

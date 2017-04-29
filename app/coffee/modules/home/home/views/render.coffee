@@ -1,4 +1,6 @@
 
+# RenderView class definition
+# Defines a view to interface with Three.js
 class RenderView extends Marionette.LayoutView
   template: require './templates/render'
   className: 'row'

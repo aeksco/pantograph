@@ -7,6 +7,7 @@ class EditorView extends Marionette.LayoutView
     Form: {}
     # RangeSlider: {}
     BootstrapSwitch: {}
+    EnableToggler: {}
 
   initialize: ->
 

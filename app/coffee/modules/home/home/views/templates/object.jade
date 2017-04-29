@@ -12,5 +12,9 @@ include ../../../../../../partials/form_helpers
 
 .col-lg-12
   p.lead Bevel
-  +formInput({ label: 'Enabled', name: 'bevelEnabled', type: 'checkbox' })
+
+  +enableToggler()
+
+  //- +formInput({ label: 'Enabled', name: 'bevelEnabled', type: 'checkbox' })
+
   +formRange({ label: 'Depth', name: 'typeDepth', type: 'range', max: 10, min: -10, formGroupCss: 'mb-0'  })

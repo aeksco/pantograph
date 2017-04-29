@@ -70,3 +70,21 @@ mixin cancelButton(opts)
     - opts.icon = 'fa-times'
 
   +button(opts)(data-click='cancel', class='btn-secondary')&attributes(attributes)
+
+//- // // // // //
+
+mixin enableButton(opts)
+  button.btn.btn-sm.btn-secondary.w-50.cursor-pointer(class=opts.css data-enabled=opts.enabled)
+    i.fa.fa-fw(class=opts.icon)
+    | &nbsp;
+    = opts.text
+
+//- // // // // //
+
+mixin enableToggler()
+  fieldset.form-group
+    label.form-control-label Enabled
+    input(name='enabled', type='hidden' )
+    .btn-group.w-100
+      +enableButton({ enabled: 'true', icon: 'fa-check-circle', text: 'Enabled' })
+      +enableButton({ enabled: 'true', icon: 'fa-times-circle', text: 'Disabled', css: 'active' })
