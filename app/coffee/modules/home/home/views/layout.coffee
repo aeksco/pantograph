@@ -12,6 +12,7 @@ class LayoutView extends Marionette.LayoutView
 
   behaviors:
     DownloadFile: {}
+    BootstrapSwitch: {}
 
   regions:
     uploadRegion:         '[data-region=upload]'

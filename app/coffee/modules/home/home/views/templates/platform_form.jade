@@ -1,16 +1,12 @@
 include ../../../../../../partials/form_helpers
 
-.col-lg-6
+.col-lg-12
   p.lead Platform
 
-.col-lg-6.text-right
-  .btn.btn-sm.btn-secondary.toggle-form
-    i.fa.fa-chevron-down
-
-.col-lg-12.form
+.col-lg-12
   .row
     .col-lg-12
-      +formInput({ label: 'Height', placeholder: 2, name: 'height', type: 'number' })
+      +formInput({ label: 'Height', placeholder: 2, name: 'height', type: 'range', max: 100, min: 1  })
 
     //- .col-lg-12
     //-   +formInput({ label: 'Buffer', placeholder: 2, name: 'buffer', type: 'number' })

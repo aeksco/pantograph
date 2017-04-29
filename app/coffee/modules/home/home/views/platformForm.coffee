@@ -5,44 +5,17 @@ class PlatformForm extends Marionette.LayoutView
 
   behaviors:
     BootstrapSwitch: {}
-
-  # TODO - this should be a behavior
-  ui:
-    checkbox: 'input[type=checkbox]'
-
-  events:
-    'change @ui.checkbox':'updateAttrs'
-    'input input':  'updateAttrs'
-    'switchChange.bootstrapSwitch @ui.checkbox':  'updateAttrs' # TODO - behavior
+    Form: {}
 
   modelEvents:
     'change': 'onModelChange'
 
-  # TODO - This is a little hack-ey
   onModelChange: ->
     @model.parent.trigger('child:change')
 
-  onRender: ->
-    @setFormData()
-
-  getFormData: (options={}) ->
-    return Backbone.Syphon.serialize(@) unless options.excludeFalsey
-
-    # Excludes false / null / empty values
-    data = Backbone.Syphon.serialize(@)
-
-    for key, val of data
-      delete data[key] if not val
-
-    return data
-
-  setFormData: (options) ->
-    Backbone.Syphon.deserialize( @, @model.toJSON() )
-
-  updateAttrs: (e) ->
-    e.stopPropagation()
-    attrs = Backbone.Syphon.serialize(@)
-    @model.set(attrs)
+  onSwitchChange: ->
+    console.log 'onSwitchChange'
+    @updateAttrs()
 
 # # # # #
 
