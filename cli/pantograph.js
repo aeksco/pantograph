@@ -1,3 +1,7 @@
+
+// Notes - perhaps headless browser will work well?
+// https://gist.github.com/bsergean/08be90a2f21205062ccc
+
 // // // // //
 // Dependencies
 import fs             from 'fs';
