@@ -50,7 +50,7 @@ class RenderView extends Marionette.LayoutView
     @controls.maxDistance = 200
 
     # Lights
-    # @scene.add new THREE.AmbientLight(0x222222)
+    @scene.add new THREE.AmbientLight(0x222222)
 
     # Lights
     light = new THREE.DirectionalLight(0xF3F3F3)

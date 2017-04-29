@@ -4,14 +4,16 @@ class FormBehavior extends Mn.Behavior
   ui:
     checkbox: 'input[type=checkbox]'
     number:   'input[type=number]'
+    range:    'input[type=range]'
     text:     'input[type=text]'
+    hidden:   'input[type=hidden]'
 
-  events: ->
-    return {} unless @options.bindData
-    return events =
-      'change @ui.checkbox':  'updateAttrs'
-      'input  @ui.number':    'updateAttrs'
-      'input  @ui.text':      'updateAttrs'
+  events:
+    'change @ui.checkbox':  'updateAttrs'
+    'change @ui.hidden':    'updateAttrs'
+    'input  @ui.range':     'updateAttrs'
+    'input  @ui.number':    'updateAttrs'
+    'input  @ui.text':      'updateAttrs'
 
   initialize: ->
     @view.updateAttrs = => @updateAttrs()
@@ -35,6 +37,7 @@ class FormBehavior extends Mn.Behavior
     Backbone.Syphon.deserialize( @view, @view.model.toJSON() )
 
   updateAttrs: (e) ->
+    console.log 'UPDATED!'
     e?.stopPropagation()
     attrs = Backbone.Syphon.serialize(@view)
     @view.model.set(attrs)
