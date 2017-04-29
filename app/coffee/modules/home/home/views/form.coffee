@@ -3,6 +3,9 @@ class FormView extends Marionette.LayoutView
   template: require './templates/form'
   className: 'row'
 
+  behaviors:
+    RangeSlider: {}
+
   # TODO - this should be a behavior
   events:
     'input input':  'updateAttrs'

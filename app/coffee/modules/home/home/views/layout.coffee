@@ -2,8 +2,8 @@ UploadView    = require './upload'
 FormView      = require './form'
 RenderView    = require './scene'
 PlatformForm  = require './platformForm'
-RenderSettingForm = require './renderSettingForm'
 DownloadForm = require './downloadForm'
+
 # # # # #
 
 class LayoutView extends Marionette.LayoutView
@@ -24,10 +24,11 @@ class LayoutView extends Marionette.LayoutView
     renderRegion:         '[data-region=render]'
 
   onRender: ->
-    @edgeFormRegion.show new RenderSettingForm({ model: @model.get('edges'), title: 'Edges' })
-    @normalsFormRegion.show new RenderSettingForm({ model: @model.get('normals'), title: 'Normals' })
-    @wireframeFormRegion.show new RenderSettingForm({ model: @model.get('wireframe'), title: 'Wireframe' })
+
+    # Upload Form
     @uploadRegion.show new UploadView({ model: @model })
+
+    # Editor Form
     @formRegion.show new FormView({ model: @model })
     @platformFormRegion.show new PlatformForm({ model: @model.get('platform') })
 
@@ -37,14 +38,18 @@ class LayoutView extends Marionette.LayoutView
 
     # Download Form
     @downloadForm = new DownloadForm()
-    @downloadForm.on 'download:stl', => @onDownload()
+    @downloadForm.on 'download:stl', => @onDownloadSTL()
+    @downloadForm.on 'download:svg', => @onDownloadSVG()
     @downloadFormRegion.show(@downloadForm)
 
-  onDownload: ->
+  onDownloadSTL: ->
     exporter = new THREE.STLExporter()
     scene = @renderView.scene
     stl = exporter.parse( scene )
     @downloadFile({ content: stl, type: 'text/plain', filename: 'test.stl' })
+
+  onDownloadSVG: ->
+    console.log 'ON DOWNLOAD SVG'
 
 # # # # #
 

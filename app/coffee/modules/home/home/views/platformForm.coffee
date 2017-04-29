@@ -1,5 +1,5 @@
 
-class BaseForm extends Marionette.LayoutView
+class PlatformForm extends Marionette.LayoutView
   template: require './templates/platform_form'
   className: 'row'
 
@@ -13,11 +13,7 @@ class BaseForm extends Marionette.LayoutView
   events:
     'change @ui.checkbox':'updateAttrs'
     'input input':  'updateAttrs'
-    'click .toggle-form': 'toggleForm' # TODO - behavior
     'switchChange.bootstrapSwitch @ui.checkbox':  'updateAttrs' # TODO - behavior
-
-  toggleForm: ->
-    @$('.form').slideToggle('fast')
 
   modelEvents:
     'change': 'onModelChange'
@@ -50,4 +46,4 @@ class BaseForm extends Marionette.LayoutView
 
 # # # # #
 
-module.exports = BaseForm
+module.exports = PlatformForm

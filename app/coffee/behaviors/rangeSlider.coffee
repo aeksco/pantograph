@@ -5,7 +5,7 @@ class RangeSlider extends Mn.Behavior
     range: 'input[type=range]'
 
   onRender: ->
-    @ui.range.rangeslider()
+    @ui.range.rangeslider({ polyfill: false })
 
 # # # # #
 
