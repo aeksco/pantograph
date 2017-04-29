@@ -1,6 +1,6 @@
 
 class PlatformForm extends Marionette.LayoutView
-  template: require './templates/platform_form'
+  template: require './templates/platform_editor'
   className: 'row'
 
   behaviors:

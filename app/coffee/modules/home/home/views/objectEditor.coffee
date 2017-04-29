@@ -1,6 +1,6 @@
 
-class FormView extends Marionette.LayoutView
-  template: require './templates/form'
+class EditorView extends Marionette.LayoutView
+  template: require './templates/object_editor'
   className: 'row'
 
   behaviors:
@@ -22,4 +22,4 @@ class FormView extends Marionette.LayoutView
 
 # # # # #
 
-module.exports = FormView
+module.exports = EditorView

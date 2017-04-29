@@ -1,8 +1,8 @@
-UploadView    = require './upload'
-FormView      = require './form'
-RenderView    = require './render'
-PlatformForm  = require './platformForm'
-DownloadForm = require './downloadForm'
+UploadView      = require './upload'
+ObjectEditor    = require './objectEditor'
+RenderView      = require './render'
+PlatformEditor  = require './platformEditor'
+DownloadForm    = require './downloadForm'
 
 # # # # #
 
@@ -16,10 +16,7 @@ class LayoutView extends Marionette.LayoutView
 
   regions:
     uploadRegion:         '[data-region=upload]'
-    formRegion:           '[data-region=form]'
-    edgeFormRegion:       '[data-region=edge-form]'
-    normalsFormRegion:    '[data-region=normals-form]'
-    wireframeFormRegion:  '[data-region=wireframe-form]'
+    formRegion:           '[data-region=editor]'
     platformFormRegion:   '[data-region=platform-form]'
     downloadFormRegion:   '[data-region=download-form]'
     renderRegion:         '[data-region=render]'
@@ -30,8 +27,8 @@ class LayoutView extends Marionette.LayoutView
     @uploadRegion.show new UploadView({ model: @model })
 
     # Editor Form
-    @formRegion.show new FormView({ model: @model })
-    @platformFormRegion.show new PlatformForm({ model: @model.get('platform') })
+    @formRegion.show new ObjectEditor({ model: @model })
+    @platformFormRegion.show new PlatformEditor({ model: @model.get('platform') })
 
     # Render View
     @renderView = new RenderView({ model: @model })
