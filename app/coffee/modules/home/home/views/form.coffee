@@ -4,11 +4,9 @@ class FormView extends Marionette.LayoutView
   className: 'row'
 
   behaviors:
+    Form: {}
     RangeSlider: {}
-
-  # TODO - this should be a behavior
-  events:
-    'input input':  'updateAttrs'
+    BootstrapSwitch: {}
 
   initialize: ->
 
@@ -19,26 +17,8 @@ class FormView extends Marionette.LayoutView
 
     @onChange = _.debounce(modelChangeCallback, 500 )
 
-  onRender: ->
-    @setFormData()
-
-  getFormData: (options={}) ->
-    return Backbone.Syphon.serialize(@) unless options.excludeFalsey
-
-    # Excludes false / null / empty values
-    data = Backbone.Syphon.serialize(@)
-
-    for key, val of data
-      delete data[key] if not val
-
-    return data
-
-  setFormData: (options) ->
-    Backbone.Syphon.deserialize( @, @model.toJSON() )
-
-  updateAttrs: (e) ->
-    e.stopPropagation()
-    @onChange()
+  onSwitchChange: ->
+    @updateAttrs()
 
 # # # # #
 

@@ -4,8 +4,9 @@ class PlatformForm extends Marionette.LayoutView
   className: 'row'
 
   behaviors:
-    BootstrapSwitch: {}
     Form: {}
+    RangeSlider: {}
+    BootstrapSwitch: {}
 
   modelEvents:
     'change': 'onModelChange'
@@ -14,7 +15,6 @@ class PlatformForm extends Marionette.LayoutView
     @model.parent.trigger('child:change')
 
   onSwitchChange: ->
-    console.log 'onSwitchChange'
     @updateAttrs()
 
 # # # # #

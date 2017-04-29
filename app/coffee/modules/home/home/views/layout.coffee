@@ -1,6 +1,6 @@
 UploadView    = require './upload'
 FormView      = require './form'
-RenderView    = require './scene'
+RenderView    = require './render'
 PlatformForm  = require './platformForm'
 DownloadForm = require './downloadForm'
 

@@ -22,7 +22,7 @@ class UploadView extends Mn.LayoutView
       Potrace.loadImageFromFile(file)
       Potrace.process =>
         svg = Potrace.getSVG(1)
-        @onXmlReaderUpload(svg)
+        @onUploadSVG(svg)
 
       # Short circuits onInputChange
       return
@@ -36,7 +36,7 @@ class UploadView extends Mn.LayoutView
 
     # Parse XML inside SVG file
     xmlReader = new FileReader()
-    xmlReader.onload = => @onXmlReaderUpload(xmlReader.result)
+    xmlReader.onload = => @onUploadSVG(xmlReader.result)
     xmlReader.readAsText(file)
 
   # Displays the uploaded
@@ -44,7 +44,9 @@ class UploadView extends Mn.LayoutView
     @ui.img.attr('src', fileData)
     @ui.img.fadeIn()
 
-  onXmlReaderUpload: (svg) ->
+  # onUploadSVG
+  # Callback when SVG images have been uploaded
+  onUploadSVG: (svg) ->
 
     # Parses XML out of SVG text
     svgDocument = $.parseXML(svg)
