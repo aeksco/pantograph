@@ -5,6 +5,7 @@ class DownloadView extends Marionette.LayoutView
 
   triggers:
     'click [data-download=stl]': 'download:stl'
+    'click [data-download=svg]': 'download:svg'
 
 # # # # #
 

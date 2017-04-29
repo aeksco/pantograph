@@ -1,6 +1,6 @@
 
 class EditorView extends Marionette.LayoutView
-  template: require './templates/object_editor'
+  template: require './templates/object'
   className: 'row'
 
   behaviors:

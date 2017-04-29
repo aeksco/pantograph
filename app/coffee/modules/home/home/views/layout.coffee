@@ -1,11 +1,13 @@
-UploadView      = require './upload'
-ObjectEditor    = require './objectEditor'
-RenderView      = require './render'
-PlatformEditor  = require './platformEditor'
-DownloadForm    = require './downloadForm'
+UploadView    = require './upload'
+ObjectForm    = require './object'
+PlatformForm  = require './platform'
+DownloadForm  = require './download'
+RenderView    = require './render'
 
 # # # # #
 
+# LayoutView class definition
+# Defines the top-level application view
 class LayoutView extends Marionette.LayoutView
   template: require './templates/layout'
   className: 'container-fluid'
@@ -15,39 +17,54 @@ class LayoutView extends Marionette.LayoutView
     BootstrapSwitch: {}
 
   regions:
-    uploadRegion:         '[data-region=upload]'
-    formRegion:           '[data-region=object-editor]'
-    platformFormRegion:   '[data-region=platform-editor]'
-    downloadFormRegion:   '[data-region=download]'
-    renderRegion:         '[data-region=render]'
+    uploadRegion:   '[data-region=upload]'
+    objectRegion:   '[data-region=object]'
+    platformRegion: '[data-region=platform]'
+    downloadRegion: '[data-region=download]'
+    renderRegion:   '[data-region=render]'
 
   onRender: ->
-
-    # Upload Form
-    @uploadRegion.show new UploadView({ model: @model })
-
-    # Editor Form
-    @formRegion.show new ObjectEditor({ model: @model })
-    @platformFormRegion.show new PlatformEditor({ model: @model.get('platform') })
 
     # Render View
     @renderView = new RenderView({ model: @model })
     @renderRegion.show( @renderView )
 
+    # Upload Form
+    @uploadView = new UploadView({ model: @model })
+    @uploadRegion.show @uploadView
+
+    # Object Form
+    @objectRegion.show new ObjectForm({ model: @model })
+
+    # Platform Form
+    @platformRegion.show new PlatformForm({ model: @model.get('platform') })
+
     # Download Form
     @downloadForm = new DownloadForm()
     @downloadForm.on 'download:stl', => @onDownloadSTL()
     @downloadForm.on 'download:svg', => @onDownloadSVG()
-    @downloadFormRegion.show(@downloadForm)
+    @downloadRegion.show(@downloadForm)
 
+  # Generates unique filename for the STL & SVG downloads
+  generateFilename: (extension) ->
+    date  = new Date().toJSON().slice(0,10).replace(/-/g, '_')
+    filename = ['pantograph_export_', date, '.', extension ]
+    return filename.join('')
+
+  # onDownloadSTL
+  # Downloads the STL
   onDownloadSTL: ->
+    return unless @uploadView.uploadedSVG
     exporter = new THREE.STLExporter()
     scene = @renderView.scene
     stl = exporter.parse( scene )
-    @downloadFile({ content: stl, type: 'text/plain', filename: 'test.stl' })
+    @downloadFile({ content: stl, type: 'text/plain', filename: @generateFilename('stl') })
 
+  # onDownloadSVG
+  # Downloads the SVG
   onDownloadSVG: ->
-    console.log 'ON DOWNLOAD SVG'
+    return unless @uploadView.uploadedSVG
+    @downloadFile({ content: @uploadView.uploadedSVG, type: 'text/plain', filename: @generateFilename('svg') })
 
 # # # # #
 
