@@ -5,7 +5,7 @@ class PlatformForm extends Marionette.LayoutView
 
   behaviors:
     Form: {}
-    RangeSlider: {}
+    # RangeSlider: {}
     BootstrapSwitch: {}
 
   modelEvents:

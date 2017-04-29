@@ -4,12 +4,6 @@ include ../../../../../../partials/form_helpers
   p.lead Platform
 
 .col-lg-12
-  .row
-    .col-lg-12
-      +formInput({ label: 'Height', placeholder: 2, name: 'height', type: 'range', max: 100, min: 1  })
-
-    //- .col-lg-12
-    //-   +formInput({ label: 'Buffer', placeholder: 2, name: 'buffer', type: 'number' })
-
-    .col-lg-12
-      +formInput({ label: 'Enabled', name: 'enabled', type: 'checkbox' })
+  +formInput({ label: 'Enabled', name: 'enabled', type: 'checkbox' })
+  +formInput({ label: 'Height', placeholder: 2, value: 5, name: 'height', type: 'range', max: 100, min: 1  })
+  +formInput({ label: 'Buffer', placeholder: 2, value: 5, name: 'buffer', type: 'range', max: 100, min: 1  })

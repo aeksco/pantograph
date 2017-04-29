@@ -16,9 +16,9 @@ class LayoutView extends Marionette.LayoutView
 
   regions:
     uploadRegion:         '[data-region=upload]'
-    formRegion:           '[data-region=editor]'
-    platformFormRegion:   '[data-region=platform-form]'
-    downloadFormRegion:   '[data-region=download-form]'
+    formRegion:           '[data-region=object-editor]'
+    platformFormRegion:   '[data-region=platform-editor]'
+    downloadFormRegion:   '[data-region=download]'
     renderRegion:         '[data-region=render]'
 
   onRender: ->
