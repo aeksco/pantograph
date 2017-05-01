@@ -38,7 +38,7 @@ class FormModel extends Backbone.RelationalModel
     id: 'default'
 
     # Core Options
-    typeSize:   60
+    width:      60
     typeDepth:  1
     height:     2
     invert:     false

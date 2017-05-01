@@ -30,7 +30,6 @@ class ObjectBuilder
     #   options.typeDepth = -1 * options.platform.height
 
     # Extrude all the shapes WITHOUT BEVEL
-    # extruded = new THREE.ExtrudeGeometry(shapes, { amount: options.typeDepth, bevelEnabled: false })
     extruded = new THREE.ExtrudeGeometry(shapes, { amount: options.height, bevelEnabled: false })
 
     # Find the bounding box of this extrusion with no bevel
@@ -46,7 +45,7 @@ class ObjectBuilder
         amount: if options.bevel then 0 else options.typeDepth
         bevelEnabled: options.bevel
         bevelThickness: options.typeDepth
-        bevelSize: options.typeDepth * maxBbExtent / options.typeSize
+        bevelSize: options.typeDepth * maxBbExtent / options.width
         bevelSegments: 1
 
     # Use negative scaling to invert the image
@@ -59,7 +58,7 @@ class ObjectBuilder
     mesh = new THREE.Mesh(extruded, options.material)
 
     # Scale to requested size (lock aspect ratio)
-    scaleTransform = new THREE.Matrix4().makeScale(options.typeSize / maxBbExtent, options.typeSize / maxBbExtent, 1)
+    scaleTransform = new THREE.Matrix4().makeScale(options.width / maxBbExtent, options.width / maxBbExtent, 1)
 
     # Keep the depth as-is
     mesh.geometry.applyMatrix(scaleTransform)
