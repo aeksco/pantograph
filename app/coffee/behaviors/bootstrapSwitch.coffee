@@ -9,7 +9,7 @@ class BootstrapSwitch extends Mn.Behavior
     'switchChange.bootstrapSwitch @ui.checkbox':  '_on_switch_change'
 
   onRender: ->
-    @ui.checkbox.bootstrapSwitch({ onText: 'Yes', offText: 'No' })
+    @ui.checkbox.bootstrapSwitch({ size: 'mini', onText: 'Enabled', offText: 'Disabled' })
 
   _on_switch_change: ->
     @view.triggerMethod 'switch:change'

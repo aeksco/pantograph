@@ -22,7 +22,7 @@ class PlatformSetting extends RenderSetting
     enabled:  false
     shape:    'circ' # or 'rect'
     height:   2
-    buffer:   5
+    buffer:   50
 
 # Backbone.RelationalModel.setup()
 PlatformSetting.setup()
@@ -42,15 +42,15 @@ class FormModel extends Backbone.RelationalModel
     typeDepth:  1
     height:     2
     invert:     false
+    color:      '#333333'
 
+    # Bevel options
     bevelEnabled: false
 
     # Platform Options
     platform: {}
 
-    # Rendering Options
-    objectColor:  '#333333'
-
+    # Edge Options
     edges:
       color:    0xffffff
       enabled:  true

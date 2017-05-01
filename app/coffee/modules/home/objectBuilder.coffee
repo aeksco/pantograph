@@ -86,9 +86,9 @@ class ObjectBuilder
   getRectangularPlatform: (mesh, opts) ->
 
     # Determine the finished size of the extruded SVG with potential bevel
-    svgBoundBox = mesh.geometry.boundingBox
-    svgWidth = svgBoundBox.max.x - (svgBoundBox.min.x)
-    svgHeight = svgBoundBox.max.y - (svgBoundBox.min.y)
+    bounds      = mesh.geometry.boundingBox
+    svgWidth    = bounds.max.x - (bounds.min.x)
+    svgHeight   = bounds.max.y - (bounds.min.y)
     maxBbExtent = if svgWidth > svgHeight then svgWidth else svgHeight
 
     # Now make the rectangular base plate
@@ -103,9 +103,9 @@ class ObjectBuilder
     svgBoundRadius = mesh.geometry.boundingSphere.radius
 
     # TODO - abstract into function
-    svgBoundBox = mesh.geometry.boundingBox
-    svgWidth = svgBoundBox.max.x - (svgBoundBox.min.x)
-    svgHeight = svgBoundBox.max.y - (svgBoundBox.min.y)
+    bounds = mesh.geometry.boundingBox
+    svgWidth = bounds.max.x - (bounds.min.x)
+    svgHeight = bounds.max.y - (bounds.min.y)
     maxBbExtent = if svgWidth > svgHeight then svgWidth else svgHeight
 
     # Gets radius
@@ -133,7 +133,7 @@ class ObjectBuilder
       platformMesh = @getCircularPlatform(mesh, opts)
 
     # By default, base is straddling Z-axis, put it flat on the print surface.
-    translateTransform = new THREE.Matrix4().makeTranslation(0, 0, opts.platform.height / 2)
+    translateTransform = new THREE.Matrix4().makeTranslation(0, 0, opts.platform.height/2 )
     platformMesh.geometry.applyMatrix(translateTransform)
     return platformMesh
 
@@ -183,23 +183,14 @@ class ObjectBuilder
   build: (paths, options) ->
 
     # Color
-    # TODO - abstract into helper method
-    options.color = new THREE.Color(options.objectColor)
+    options.color = new THREE.Color(options.color)
 
     # Material (derived from color)
-    # TODO - abstract into helper method
-    if options.invert
-      options.material = new THREE.MeshLambertMaterial({
-        color:    options.color
-        emissive: options.color
-      })
-
-    else
-      options.material = new THREE.MeshLambertMaterial({
-        color:    options.color
-        emissive: options.color
-        side:     THREE.DoubleSide
-      })
+    options.material = new THREE.MeshLambertMaterial({
+      color:    options.color
+      emissive: options.color
+      side:     THREE.DoubleSide
+    })
 
     # Create an extrusion from the SVG path shapes
     svgMesh = @extrudeSVG(paths, options)
