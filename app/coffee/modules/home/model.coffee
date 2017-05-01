@@ -43,9 +43,7 @@ class FormModel extends Backbone.RelationalModel
     height:     2
     invert:     false
     color:      '#333333'
-
-    # Bevel options
-    bevelEnabled: false
+    bevel:      false
 
     # Platform Options
     platform: {}

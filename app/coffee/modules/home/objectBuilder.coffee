@@ -7,7 +7,7 @@ class ObjectBuilder
   extrudeSVG: (paths, options) ->
 
     # Bevel?
-    # options.bevelEnabled = if options.typeDepth < 0 or !options.platform.enabled then false else options.bevelEnabled
+    # options.bevel = if options.typeDepth < 0 or !options.platform.enabled then false else options.bevel
 
     # Shapes?
     shapes = []
@@ -41,10 +41,10 @@ class ObjectBuilder
     maxBbExtent = if svgWidth > svgHeight then svgWidth else svgHeight
 
     # Extrude with bevel instead if requested.
-    if options.bevelEnabled
+    if options.bevel
       extruded = new THREE.ExtrudeGeometry shapes,
-        amount: if options.bevelEnabled then 0 else options.typeDepth
-        bevelEnabled: options.bevelEnabled
+        amount: if options.bevel then 0 else options.typeDepth
+        bevelEnabled: options.bevel
         bevelThickness: options.typeDepth
         bevelSize: options.typeDepth * maxBbExtent / options.typeSize
         bevelSegments: 1
