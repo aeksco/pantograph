@@ -6,7 +6,7 @@ nodeModules = './node_modules/'
 
 paths =
   src:          './app/'
-  dest:         './docs/'
+  dest:         './build/'
   node_modules: './node_modules/'
   jadeSrc:      './app/index.jade'
 
@@ -16,12 +16,12 @@ paths =
 
   sass:
     src:  './app/sass/manifest.sass'
-    dest: './docs/css/'
+    dest: './build/css/'
 
   copy:
     font_awesome:
       src:  nodeModules + 'font-awesome/fonts/*'
-      dest: './docs/fonts'
+      dest: './build/fonts'
 
   concat:
     dest: 'vendor.js'
