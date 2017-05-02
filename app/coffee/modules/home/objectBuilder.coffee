@@ -3,13 +3,11 @@
 # Accepts parametes from the FormModel
 class ObjectBuilder
 
-  # svgToThree
-  extrudeSVG: (paths, options) ->
+  # pathsToShapes
+  # Tranforms the SVG paths into shapes consumable by THREE.js
+  pathsToShapes: (paths) ->
 
-    # Bevel?
-    # options.bevelEnabled = if options.typeDepth < 0 or !options.platform.enabled then false else options.bevelEnabled
-
-    # Shapes?
+    # Stores transformed shapes
     shapes = []
 
     # Iterates over each path...
@@ -25,29 +23,31 @@ class ObjectBuilder
       # Add these three.js shapes to an array.
       shapes = shapes.concat(newShapes)
 
-    # Negative typeDepths are ok, but can't be deeper than the base
-    # if options.platform.enabled and options.typeDepth < 0 and Math.abs(options.typeDepth) > options.platform.height
-    #   options.typeDepth = -1 * options.platform.height
+    return shapes
 
-    # Extrude all the shapes WITHOUT BEVEL
-    # extruded = new THREE.ExtrudeGeometry(shapes, { amount: options.typeDepth, bevelEnabled: false })
+  # getExtruded
+  # Extrudes the SVG using shapes and options
+  getExtruded: (shapes, options) ->
+
+    # Extrude all the shapes WITHOUT Bevel
     extruded = new THREE.ExtrudeGeometry(shapes, { amount: options.height, bevelEnabled: false })
 
     # Find the bounding box of this extrusion with no bevel
     # there's probably a smarter way to get a bounding box without extruding...
     extruded.computeBoundingBox()
-    svgWidth = extruded.boundingBox.max.x - (extruded.boundingBox.min.x)
-    svgHeight = extruded.boundingBox.max.y - (extruded.boundingBox.min.y)
-    maxBbExtent = if svgWidth > svgHeight then svgWidth else svgHeight
+    maxBbExtent = @getMaxExtent(extruded.boundingBox)
 
     # Extrude with bevel instead if requested.
-    if options.bevelEnabled
-      extruded = new THREE.ExtrudeGeometry shapes,
-        amount: if options.bevelEnabled then 0 else options.typeDepth
-        bevelEnabled: options.bevelEnabled
-        bevelThickness: options.typeDepth
-        bevelSize: options.typeDepth * maxBbExtent / options.typeSize
-        bevelSegments: 1
+    if options.bevel
+
+      extrudeOptions =
+        amount:         0
+        bevelEnabled:   true
+        bevelThickness: options.height
+        bevelSize:      options.height * maxBbExtent / options.width
+        bevelSegments:  1
+
+      extruded = new THREE.ExtrudeGeometry(shapes, extrudeOptions)
 
     # Use negative scaling to invert the image
     # Why do we have to flip the image to keep original SVG orientation?
@@ -59,10 +59,29 @@ class ObjectBuilder
     mesh = new THREE.Mesh(extruded, options.material)
 
     # Scale to requested size (lock aspect ratio)
-    scaleTransform = new THREE.Matrix4().makeScale(options.typeSize / maxBbExtent, options.typeSize / maxBbExtent, 1)
+    scaleTransform = new THREE.Matrix4().makeScale(options.width / maxBbExtent, options.width / maxBbExtent, 1)
 
     # Keep the depth as-is
     mesh.geometry.applyMatrix(scaleTransform)
+
+    # Returns extruded geometry
+    return mesh
+
+  # svgToThree
+  extrudeSVG: (paths, options) ->
+
+    # Bevel?
+    # options.bevel = if options.height < 0 or !options.platform.enabled then false else options.bevel
+
+    # Gets shapes from paths
+    shapes = @pathsToShapes(paths)
+
+    # Negative typeDepths are ok, but can't be deeper than the base
+    # if options.platform.enabled and options.height < 0 and Math.abs(options.height) > options.platform.height
+    #   options.height = -1 * options.platform.height
+
+    # Extrudes shapes into mesh geometry
+    mesh = @getExtruded(shapes, options)
 
     # Center on X/Y origin
     mesh.geometry.computeBoundingBox()
@@ -83,42 +102,42 @@ class ObjectBuilder
 
   # # # # # # # # # #
 
+  # Determine the finished size of the extruded SVG with potential bevel
+  getMaxExtent: (bounds) ->
+    svgWidth    = bounds.max.x - (bounds.min.x)
+    svgHeight   = bounds.max.y - (bounds.min.y)
+    maxBbExtent = if svgWidth > svgHeight then svgWidth else svgHeight
+    return maxBbExtent
+
   getRectangularPlatform: (mesh, opts) ->
 
-    # Determine the finished size of the extruded SVG with potential bevel
-    svgBoundBox = mesh.geometry.boundingBox
-    svgWidth = svgBoundBox.max.x - (svgBoundBox.min.x)
-    svgHeight = svgBoundBox.max.y - (svgBoundBox.min.y)
-    maxBbExtent = if svgWidth > svgHeight then svgWidth else svgHeight
+    # Get max extent
+    maxBbExtent = @getMaxExtent(mesh.geometry.boundingBox)
 
     # Now make the rectangular base plate
-    platformGeometry = new THREE.BoxGeometry(maxBbExtent + opts.platform.buffer, maxBbExtent + opts.platform.buffer, opts.platform.height)
+    boxSize = maxBbExtent + Number(opts.platform.buffer)
+    platformGeometry = new THREE.BoxGeometry(boxSize, boxSize, opts.platform.height)
     platformMesh = new THREE.Mesh(platformGeometry, opts.material)
     return platformMesh
 
   # # # # #
 
   getCircularPlatform: (mesh, opts) ->
+
     # Find SVG bounding radius
     svgBoundRadius = mesh.geometry.boundingSphere.radius
 
-    # TODO - abstract into function
-    svgBoundBox = mesh.geometry.boundingBox
-    svgWidth = svgBoundBox.max.x - (svgBoundBox.min.x)
-    svgHeight = svgBoundBox.max.y - (svgBoundBox.min.y)
-    maxBbExtent = if svgWidth > svgHeight then svgWidth else svgHeight
-
-    # Gets radius
-    sqrt = Math.sqrt( Math.pow((maxBbExtent/2),  2) + Math.pow((maxBbExtent/2), 2))
-    radius = sqrt + opts.platform.buffer
-
-    # Gets
-    platformGeometry = new THREE.CylinderGeometry(svgBoundRadius + opts.platform.buffer, svgBoundRadius + opts.platform.buffer, opts.platform.height, 64)
+    # Cylinder parameters
+    radius            = svgBoundRadius + Number(opts.platform.buffer)
+    radiusSegments    = 60
+    platformGeometry  = new THREE.CylinderGeometry(radius, radius, opts.platform.height, radiusSegments)
 
     # Number of faces around the cylinder
     platformMesh = new THREE.Mesh(platformGeometry, opts.material)
     rotateTransform = new THREE.Matrix4().makeRotationX(Math.PI / 2)
     platformMesh.geometry.applyMatrix(rotateTransform)
+
+    # Returns platform mesh
     return platformMesh
 
   # # # # #
@@ -133,7 +152,7 @@ class ObjectBuilder
       platformMesh = @getCircularPlatform(mesh, opts)
 
     # By default, base is straddling Z-axis, put it flat on the print surface.
-    translateTransform = new THREE.Matrix4().makeTranslation(0, 0, opts.platform.height / 2)
+    translateTransform = new THREE.Matrix4().makeTranslation(0, 0, opts.platform.height/2 )
     platformMesh.geometry.applyMatrix(translateTransform)
     return platformMesh
 
@@ -164,7 +183,7 @@ class ObjectBuilder
     # Positive typeDepth means raised
     # Negative typeDepth means sunken
     # TODO - should be range slider from (-x - x)
-    if opts.typeDepth > 0
+    if opts.height > 0
       finalObj = baseCSG.union(svgCSG).toMesh(opts.material)
     else
       finalObj = baseCSG.intersect(svgCSG).toMesh(opts.material)
@@ -182,24 +201,19 @@ class ObjectBuilder
   # Render object in scene
   build: (paths, options) ->
 
+    # Set height to -1 if it doesnt exist, or equals 0
+    if options.height == 0 || options.height == undefined
+      options.height = 1
+
     # Color
-    # TODO - abstract into helper method
-    options.color = new THREE.Color(options.objectColor)
+    options.color = new THREE.Color(options.color)
 
     # Material (derived from color)
-    # TODO - abstract into helper method
-    if options.invert
-      options.material = new THREE.MeshLambertMaterial({
-        color:    options.color
-        emissive: options.color
-      })
-
-    else
-      options.material = new THREE.MeshLambertMaterial({
-        color:    options.color
-        emissive: options.color
-        side:     THREE.DoubleSide
-      })
+    options.material = new THREE.MeshLambertMaterial({
+      color:    options.color
+      emissive: options.color
+      side:     THREE.DoubleSide
+    })
 
     # Create an extrusion from the SVG path shapes
     svgMesh = @extrudeSVG(paths, options)

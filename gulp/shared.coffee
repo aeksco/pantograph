@@ -8,7 +8,7 @@ module.exports = (gulp, paths, plugins) ->
       .pipe plugins.plumber()
       .pipe plugins.concat(paths.concat.dest)
 
-    stream.pipe uglify() if process.env.NODE_ENV == 'prod'
+    stream.pipe plugins.uglify() if process.env.NODE_ENV == 'prod'
     stream.pipe gulp.dest paths.dest + 'js/'
 
   # Bundle task
@@ -22,7 +22,7 @@ module.exports = (gulp, paths, plugins) ->
         extensions: ['.coffee', '.jade']
       .pipe plugins.concat(paths.bundle.dest)
 
-    stream.pipe uglify() if process.env.NODE_ENV == 'prod'
+    stream.pipe plugins.uglify() if process.env.NODE_ENV == 'prod'
     stream.pipe gulp.dest paths.dest + 'js/'
 
   # Bundle server task

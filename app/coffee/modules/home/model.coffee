@@ -20,7 +20,7 @@ class PlatformSetting extends RenderSetting
 
   defaults:
     enabled:  false
-    shape:    'circ' # or 'rect'
+    shape:    'rect' # or 'circ'
     height:   2
     buffer:   5
 
@@ -38,19 +38,16 @@ class FormModel extends Backbone.RelationalModel
     id: 'default'
 
     # Core Options
-    typeSize:   60
-    typeDepth:  1
+    width:      60
     height:     2
     invert:     false
-
-    bevelEnabled: false
+    color:      '#333333'
+    bevel:      false
 
     # Platform Options
     platform: {}
 
-    # Rendering Options
-    objectColor:  '#333333'
-
+    # Edge Options
     edges:
       color:    0xffffff
       enabled:  true
@@ -70,6 +67,15 @@ class FormModel extends Backbone.RelationalModel
   # Attaches new ObjectBuilder instance to the model
   initialize: (options={}) ->
     @objectBuilder = new ObjectBuilder()
+
+  # toJSON
+  # Overwites default Backbone.Model.prototype.toJSON() method
+  # to ensure that all attributes are returned with the correct type
+  toJSON: ->
+    json = super()
+    json.height = Number(json.height)
+    json.width = Number(json.width)
+    return json
 
 # # # # #
 

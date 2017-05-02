@@ -14,16 +14,6 @@ paths =
     src: 'coffee/manifest.coffee'
     dest: 'app.js'
 
-  nwk_package:
-    src:  './app/nwk_package.coffee'
-    dest: './build/package.json'
-
-  nwk_release:
-    src:        './build/**/**'
-    version:    '0.14.6'
-    # platforms: ['osx64', 'linux64']
-    platforms: ['osx64']
-
   sass:
     src:  './app/sass/manifest.sass'
     dest: './build/css/'
@@ -32,10 +22,6 @@ paths =
     font_awesome:
       src:  nodeModules + 'font-awesome/fonts/*'
       dest: './build/fonts'
-
-    img:
-      src:  './app/img/*'
-      dest: './build/img'
 
   concat:
     dest: 'vendor.js'
@@ -66,7 +52,6 @@ paths =
       # Utility
       nodeModules + 'bluebird/js/browser/bluebird.min.js'
       nodeModules + 'potrace/potrace.js'
-      # nodeModules + 'd3/build/d3.js'
 
       # UI
       nodeModules + 'rangeslider.js/dist/rangeslider.js'
@@ -117,53 +102,11 @@ gulp.task 'watch', ->
 
 # # # # #
 
-# TODO - put these tasks into a separate file
-
-# Flushes build directory
-# TODO - finish this.
-# gulp.task 'flush_build', ->
-#   console.log 'FLUSH BUILD'
-#   return true
-
-# NodeWebKit Package.json
-gulp.task 'nodewebkit_package', ->
-  str = require paths.nwk_package.src
-  plugins.fs.writeFileSync( paths.nwk_package.dest, str)
-  return true
-
-# NodeWebKit Releases
-NwBuilder = require 'nw-builder'
-gulp.task 'nodewebkit_release', ->
-  nw = new NwBuilder
-    files:        paths.nwk_release.src
-    platforms:    paths.nwk_release.platforms
-    version:      paths.nwk_release.version
-    downloadUrl:  'https://dl.nwjs.io/'
-
-  # Log NWK Build
-  nw.on 'log', console.log
-
-  # Build returns a promise
-  nw.build()
-  .then ->
-    console.log 'NWK Build complete'
-    return
-
-  .catch (error) ->
-    console.log 'NWK Build Error!'
-    console.error error
-    return
-
-# # # # #
-
 # Build tasks
 gulp.task 'default', ['dev']
 
 gulp.task 'dev', =>
-  plugins.runSequence.use(gulp)('env_dev', 'copy_fontawesome', 'copy_images', 'sass', 'jade', 'concat', 'bundle', 'watch', 'webserver')
+  plugins.runSequence.use(gulp)('env_dev', 'copy_fontawesome', 'sass', 'jade', 'concat', 'bundle', 'watch', 'webserver')
 
 gulp.task 'release', =>
-  plugins.runSequence.use(gulp)('env_prod', 'copy_fontawesome', 'copy_images', 'sass', 'jade', 'concat', 'bundle', => console.log 'Release completed.' )
-
-gulp.task 'nwk_release', =>
-  plugins.runSequence.use(gulp)('env_dev', 'copy_fontawesome', 'copy_images', 'sass', 'jade', 'concat', 'bundle', 'nodewebkit_package', 'nodewebkit_release', => console.log 'NWK Release completed.' )
+  plugins.runSequence.use(gulp)('env_prod', 'copy_fontawesome', 'sass', 'jade', 'concat', 'bundle', => console.log 'Release completed.' )
