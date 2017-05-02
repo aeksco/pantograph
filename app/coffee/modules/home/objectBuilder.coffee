@@ -25,6 +25,8 @@ class ObjectBuilder
       # Add these three.js shapes to an array.
       shapes = shapes.concat(newShapes)
 
+    # # # # #
+
     # Negative typeDepths are ok, but can't be deeper than the base
     if options.platform.enabled and options.height < 0 and Math.abs(options.height) > options.platform.height
       options.height = -1 * options.platform.height
@@ -82,42 +84,41 @@ class ObjectBuilder
 
   # # # # # # # # # #
 
-  getRectangularPlatform: (mesh, opts) ->
-
-    # Determine the finished size of the extruded SVG with potential bevel
-    bounds      = mesh.geometry.boundingBox
+  # Determine the finished size of the extruded SVG with potential bevel
+  getMaxExtent: (mesh) ->
+    bounds      = mesh.geometry.boundingBox()
     svgWidth    = bounds.max.x - (bounds.min.x)
     svgHeight   = bounds.max.y - (bounds.min.y)
     maxBbExtent = if svgWidth > svgHeight then svgWidth else svgHeight
+    return maxBbExtent
 
+  getRectangularPlatform: (mesh, opts) ->
+
+    maxBbExtent = @getMaxExtent(mesh)
     # Now make the rectangular base plate
-    platformGeometry = new THREE.BoxGeometry(maxBbExtent + opts.platform.buffer, maxBbExtent + opts.platform.buffer, opts.platform.height)
+    boxSize = maxBbExtent + Number(opts.platform.buffer)
+    platformGeometry = new THREE.BoxGeometry(boxSize, boxSize, opts.platform.height)
     platformMesh = new THREE.Mesh(platformGeometry, opts.material)
     return platformMesh
 
   # # # # #
 
   getCircularPlatform: (mesh, opts) ->
+
     # Find SVG bounding radius
     svgBoundRadius = mesh.geometry.boundingSphere.radius
 
-    # TODO - abstract into function
-    bounds = mesh.geometry.boundingBox
-    svgWidth = bounds.max.x - (bounds.min.x)
-    svgHeight = bounds.max.y - (bounds.min.y)
-    maxBbExtent = if svgWidth > svgHeight then svgWidth else svgHeight
-
-    # Gets radius
-    sqrt = Math.sqrt( Math.pow((maxBbExtent/2),  2) + Math.pow((maxBbExtent/2), 2))
-    radius = sqrt + opts.platform.buffer
-
-    # Gets
-    platformGeometry = new THREE.CylinderGeometry(svgBoundRadius + opts.platform.buffer, svgBoundRadius + opts.platform.buffer, opts.platform.height, 64)
+    # Cylinder parameters
+    radius            = svgBoundRadius + Number(opts.platform.buffer)
+    radiusSegments    = 60
+    platformGeometry  = new THREE.CylinderGeometry(radius, radius, opts.platform.height, radiusSegments)
 
     # Number of faces around the cylinder
     platformMesh = new THREE.Mesh(platformGeometry, opts.material)
     rotateTransform = new THREE.Matrix4().makeRotationX(Math.PI / 2)
     platformMesh.geometry.applyMatrix(rotateTransform)
+
+    # Returns platform mesh
     return platformMesh
 
   # # # # #

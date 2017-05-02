@@ -22,7 +22,7 @@ class PlatformSetting extends RenderSetting
     enabled:  false
     shape:    'circ' # or 'rect'
     height:   2
-    buffer:   50
+    buffer:   5
 
 # Backbone.RelationalModel.setup()
 PlatformSetting.setup()
