@@ -7,7 +7,7 @@ class ObjectBuilder
   extrudeSVG: (paths, options) ->
 
     # Bevel?
-    # options.bevel = if options.typeDepth < 0 or !options.platform.enabled then false else options.bevel
+    # options.bevel = if options.height < 0 or !options.platform.enabled then false else options.bevel
 
     # Shapes?
     shapes = []
@@ -26,10 +26,10 @@ class ObjectBuilder
       shapes = shapes.concat(newShapes)
 
     # Negative typeDepths are ok, but can't be deeper than the base
-    # if options.platform.enabled and options.typeDepth < 0 and Math.abs(options.typeDepth) > options.platform.height
-    #   options.typeDepth = -1 * options.platform.height
+    if options.platform.enabled and options.height < 0 and Math.abs(options.height) > options.platform.height
+      options.height = -1 * options.platform.height
 
-    # Extrude all the shapes WITHOUT BEVEL
+    # Extrude all the shapes WITHOUT Bevel
     extruded = new THREE.ExtrudeGeometry(shapes, { amount: options.height, bevelEnabled: false })
 
     # Find the bounding box of this extrusion with no bevel
@@ -42,10 +42,10 @@ class ObjectBuilder
     # Extrude with bevel instead if requested.
     if options.bevel
       extruded = new THREE.ExtrudeGeometry shapes,
-        amount: if options.bevel then 0 else options.typeDepth
+        amount: if options.bevel then 0 else options.height
         bevelEnabled: options.bevel
-        bevelThickness: options.typeDepth
-        bevelSize: options.typeDepth * maxBbExtent / options.width
+        bevelThickness: options.height
+        bevelSize: options.height * maxBbExtent / options.width
         bevelSegments: 1
 
     # Use negative scaling to invert the image
@@ -163,7 +163,7 @@ class ObjectBuilder
     # Positive typeDepth means raised
     # Negative typeDepth means sunken
     # TODO - should be range slider from (-x - x)
-    if opts.typeDepth > 0
+    if opts.bevelThickness > 0
       finalObj = baseCSG.union(svgCSG).toMesh(opts.material)
     else
       finalObj = baseCSG.intersect(svgCSG).toMesh(opts.material)

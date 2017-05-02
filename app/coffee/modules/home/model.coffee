@@ -39,11 +39,12 @@ class FormModel extends Backbone.RelationalModel
 
     # Core Options
     width:      60
-    typeDepth:  1
     height:     2
     invert:     false
     color:      '#333333'
+
     bevel:      false
+    bevelThickness:  1
 
     # Platform Options
     platform: {}
