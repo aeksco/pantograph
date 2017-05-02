@@ -23,10 +23,6 @@ paths =
       src:  nodeModules + 'font-awesome/fonts/*'
       dest: './build/fonts'
 
-    img:
-      src:  './app/img/*'
-      dest: './build/img'
-
   concat:
     dest: 'vendor.js'
     src: [
@@ -56,7 +52,6 @@ paths =
       # Utility
       nodeModules + 'bluebird/js/browser/bluebird.min.js'
       nodeModules + 'potrace/potrace.js'
-      # nodeModules + 'd3/build/d3.js'
 
       # UI
       nodeModules + 'rangeslider.js/dist/rangeslider.js'
@@ -111,10 +106,7 @@ gulp.task 'watch', ->
 gulp.task 'default', ['dev']
 
 gulp.task 'dev', =>
-  plugins.runSequence.use(gulp)('env_dev', 'copy_fontawesome', 'copy_images', 'sass', 'jade', 'concat', 'bundle', 'watch', 'webserver')
+  plugins.runSequence.use(gulp)('env_dev', 'copy_fontawesome', 'sass', 'jade', 'concat', 'bundle', 'watch', 'webserver')
 
 gulp.task 'release', =>
-  plugins.runSequence.use(gulp)('env_prod', 'copy_fontawesome', 'copy_images', 'sass', 'jade', 'concat', 'bundle', => console.log 'Release completed.' )
-
-gulp.task 'nwk_release', =>
-  plugins.runSequence.use(gulp)('env_dev', 'copy_fontawesome', 'copy_images', 'sass', 'jade', 'concat', 'bundle', 'nodewebkit_package', 'nodewebkit_release', => console.log 'NWK Release completed.' )
+  plugins.runSequence.use(gulp)('env_prod', 'copy_fontawesome', 'sass', 'jade', 'concat', 'bundle', => console.log 'Release completed.' )
