@@ -20,7 +20,7 @@ class PlatformSetting extends RenderSetting
 
   defaults:
     enabled:  false
-    shape:    'circ' # or 'rect'
+    shape:    'rect' # or 'circ'
     height:   2
     buffer:   5
 
