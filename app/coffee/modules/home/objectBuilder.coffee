@@ -12,6 +12,9 @@ class ObjectBuilder
     # Shapes?
     shapes = []
 
+    # # # # #
+    # TODO - transform paths
+
     # Iterates over each path...
     for each in paths
 
@@ -25,11 +28,15 @@ class ObjectBuilder
       # Add these three.js shapes to an array.
       shapes = shapes.concat(newShapes)
 
+    #
     # # # # #
 
     # Negative typeDepths are ok, but can't be deeper than the base
-    if options.platform.enabled and options.height < 0 and Math.abs(options.height) > options.platform.height
-      options.height = -1 * options.platform.height
+    # if options.platform.enabled and options.height < 0 and Math.abs(options.height) > options.platform.height
+    #   options.height = -1 * options.platform.height
+
+    # # # # #
+    # TODO - getExtruded
 
     # Extrude all the shapes WITHOUT Bevel
     extruded = new THREE.ExtrudeGeometry(shapes, { amount: options.height, bevelEnabled: false })
@@ -55,6 +62,8 @@ class ObjectBuilder
     if !options.invert
       invertTransform = new THREE.Matrix4().makeScale(-1, 1, 1)
       extruded.applyMatrix(invertTransform)
+
+    # # # # #
 
     # Into a mesh of triangles
     mesh = new THREE.Mesh(extruded, options.material)
