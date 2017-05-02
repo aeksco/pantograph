@@ -17,6 +17,7 @@
     "bootstrap-switch": "~3.3",
     "bourbon": "~4.2",
     "font-awesome": "~4.6",
+    "gulp": "^3.9.1",
     "gulp-browserify": "~0.5.1",
     "gulp_tasks": "https://github.com/aeksco/gulp_tasks",
     "hn_behaviors": "git+https://github.com/HensonJS/hn_behaviors.git",
