@@ -14,16 +14,6 @@ paths =
     src: 'coffee/manifest.coffee'
     dest: 'app.js'
 
-  nwk_package:
-    src:  './app/nwk_package.coffee'
-    dest: './build/package.json'
-
-  nwk_release:
-    src:        './build/**/**'
-    version:    '0.14.6'
-    # platforms: ['osx64', 'linux64']
-    platforms: ['osx64']
-
   sass:
     src:  './app/sass/manifest.sass'
     dest: './build/css/'
@@ -114,45 +104,6 @@ gulp.task 'watch', ->
   gulp.watch paths.src + '**/*.coffee',  ['bundle']
   gulp.watch paths.src + '**/*.jade',    ['bundle', 'jade']
   gulp.watch paths.src + '**/*.sass',    ['sass']
-
-# # # # #
-
-# TODO - put these tasks into a separate file
-
-# Flushes build directory
-# TODO - finish this.
-# gulp.task 'flush_build', ->
-#   console.log 'FLUSH BUILD'
-#   return true
-
-# NodeWebKit Package.json
-gulp.task 'nodewebkit_package', ->
-  str = require paths.nwk_package.src
-  plugins.fs.writeFileSync( paths.nwk_package.dest, str)
-  return true
-
-# NodeWebKit Releases
-NwBuilder = require 'nw-builder'
-gulp.task 'nodewebkit_release', ->
-  nw = new NwBuilder
-    files:        paths.nwk_release.src
-    platforms:    paths.nwk_release.platforms
-    version:      paths.nwk_release.version
-    downloadUrl:  'https://dl.nwjs.io/'
-
-  # Log NWK Build
-  nw.on 'log', console.log
-
-  # Build returns a promise
-  nw.build()
-  .then ->
-    console.log 'NWK Build complete'
-    return
-
-  .catch (error) ->
-    console.log 'NWK Build Error!'
-    console.error error
-    return
 
 # # # # #
 
