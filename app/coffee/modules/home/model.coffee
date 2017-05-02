@@ -42,9 +42,7 @@ class FormModel extends Backbone.RelationalModel
     height:     2
     invert:     false
     color:      '#333333'
-
     bevel:      false
-    bevelThickness:  1
 
     # Platform Options
     platform: {}
@@ -69,6 +67,15 @@ class FormModel extends Backbone.RelationalModel
   # Attaches new ObjectBuilder instance to the model
   initialize: (options={}) ->
     @objectBuilder = new ObjectBuilder()
+
+  # toJSON
+  # Overwites default Backbone.Model.prototype.toJSON() method
+  # to ensure that all attributes are returned with the correct type
+  toJSON: ->
+    json = super()
+    json.height = Number(json.height)
+    json.width = Number(json.width)
+    return json
 
 # # # # #
 

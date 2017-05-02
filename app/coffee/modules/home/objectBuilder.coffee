@@ -201,16 +201,8 @@ class ObjectBuilder
   # Render object in scene
   build: (paths, options) ->
 
-    # Cast all important options as numbers
-    # options.height = Number(options.height)
-    # options.width = Number(options.width)
-
-    console.log options.height == undefined
-    console.log options.height > 0
-
     # Set height to -1 if it doesnt exist, or equals 0
     if options.height == 0 || options.height == undefined
-      console.log 'INVALID HEIGHT'
       options.height = 1
 
     # Color
